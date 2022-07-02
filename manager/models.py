@@ -1,5 +1,5 @@
 """Load all the models to create tables"""
-
+# pylint: disable=unused-imports
 from manager.submodels.base_models import (
     Country,
     AttributeCategory,
