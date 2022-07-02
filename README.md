@@ -27,6 +27,8 @@ The database used here is `MySQL`. Create the following environment variables in
 
 Make sure you have `virtualenv` installed (`python -m pip install virtualenv`). You may need to specify `python3` instead of `python` depending on your system. Create a virtual environment in your root project directory using `virtualenv env`. Activate the environment using `env/Scripts/activate` on Windows or `source bin/activate` on Linux/Mac. When you are done, you can deactivate the environment by using `deactivate`. Inside the environment, run `python -m pip install -r requirements.txt`.
 
+Generate a Django secret key and assign it to the environment variable `FIFA_MANAGER_DJANGO_SECRET_KEY` in your machine.
+
 Run `python manage.py makemigrations manager` and `python manage.py makemigrations`. Then run `python manage.py migrate`. This will create the necessary tables for the application to run.
 
 ## Testing and Running
