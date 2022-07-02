@@ -7,10 +7,7 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 
-from manager.models.base_models import (
-    BasePerson,
-    UserModel,
-)
+from manager.submodels.base_models import BasePerson
 
 
 class UserManager(BaseUserManager):
@@ -87,7 +84,6 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **kwargs)
 
-
 class User(AbstractUser):
     """User Model with email as username"""
     username = None
@@ -101,6 +97,8 @@ class User(AbstractUser):
 
     def __str__(self):
         return f'{self.email}'
+
+UserModel = settings.AUTH_USER_MODEL
 
 class Manager(BasePerson):
     user = models.ForeignKey(
