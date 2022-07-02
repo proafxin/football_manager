@@ -19,3 +19,12 @@ A simulation of Fifa manager mode.
 The database used here is `MySQL`.
 
 ## Testing and Running
+
+## Design Principles
+- Make all deals atomic transactions.
+- Put different models in different modules.
+- Make models fat if necessary but not views.
+- Use class based views unless function views are absolutely necessary.
+- Use an extra service layer between views and models.
+- Test all modules and get close to 100% coverage.
+- Maintain code quality using pylint.
