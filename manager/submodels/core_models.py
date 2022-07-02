@@ -62,7 +62,11 @@ class Team(BaseModel):
         to=UserModel,
         on_delete=models.CASCADE,
         editable=False,
-        related_name='teams',
+    )
+    manager = models.ForeignKey(
+        to=Manager,
+        null=True,
+        on_delete=models.SET_NULL,
     )
     budget = models.PositiveBigIntegerField(default=settings.DEFAULT_BUDGET, editable=False)
     league = models.ForeignKey(
@@ -71,6 +75,7 @@ class Team(BaseModel):
         on_delete=models.CASCADE,
     )
     value = models.PositiveBigIntegerField(default=settings.DEFAULT_VALUE, editable=False)
+    has_manager = models.BooleanField(default=False)
     starting_manager_salary = models.PositiveBigIntegerField()
     existing = models.BooleanField(default=True, null=False)
 
