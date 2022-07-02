@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+from os import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -19,8 +20,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
+# AUTH_USER_MODEL = 'manager.User'
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-@7)*0=lue++h@#sn(2&j!p#e0haz-+k(ofe3%f%)^q^l#4!(y%'
+SECRET_KEY = environ['FIFA_MANAGER_DJANGO_SECRET_KEY']
+
+MAX_LENGTH = 100
+DEFAULT_PLAYER_VALUE = 1000000
+DEFAULT_BUDGET = 5*DEFAULT_PLAYER_VALUE
+DEFAULT_INITIAL_PLAYER_NUMBER = 20
+DEFAULT_VALUE = DEFAULT_PLAYER_VALUE*DEFAULT_INITIAL_PLAYER_NUMBER
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -38,9 +47,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'debug_toolbar',
     'coreapi',
     'drf_yasg',
+    'silk',
     'manager',
 ]
 
@@ -52,7 +63,36 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'silk.middleware.SilkyMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+}
+
+LOGIN_REDIRECT_URL = 'team-list'
+LOGIN_URL = 'api-auth/login/'
+LOGOUT_URL = 'api-auth/logout/'
+LOGOUT_REDIRECT_URL = 'api-auth/login/'
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'basic': {
+            'type': 'basic'
+        }
+    },
+    'LOGIN_URL': LOGIN_URL,
+    'LOGIN_REDIRECT_URL': LOGIN_REDIRECT_URL,
+    'LOGOUT_URL': LOGOUT_URL,
+}
+
+
 
 ROOT_URLCONF = 'fifa_manager.urls'
 
@@ -77,15 +117,26 @@ WSGI_APPLICATION = 'fifa_manager.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
+DATABASE_NAME = environ['FIFA_MANAGER_MYSQL_DATABASE_NAME']
+DATABASE_USERNAME = environ['MYSQL_USERNAME']
+DATABASE_HOST = environ['MYSQL_HOST']
+DATABASE_PASSWORD = environ['MYSQL_PASSWORD']
+DATABASE_PORT = environ['MYSQL_PORT']
 
 DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': ''
-    }
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'database': DATABASE_NAME,
+            'host': DATABASE_HOST,
+            'user': DATABASE_USERNAME,
+            'password': DATABASE_PASSWORD,
+            'port': int(DATABASE_PORT),
+        },
+    },
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
@@ -127,3 +178,8 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+INTERNAL_IPS = [
+    # ...
+    "127.0.0.1",
+    # ...
+]
