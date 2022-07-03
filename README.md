@@ -1,5 +1,5 @@
-# Fifa Manager Mode Backend API
-A simulation of Fifa manager mode.
+# Virtual Football Manager
+A virtual backend simulation of football manager mode.
 
 ## Features
 - User can play as a manager of an existing team or create a new club.
@@ -8,7 +8,7 @@ A simulation of Fifa manager mode.
 - Team attributes: name, country, owner, players, budget, value, starting manager salary.
 - Player attributes: first name, last name, country, team, value, price, position, status, date of birth, and Attributes (associated to playing).
 - Categories of attributes: athletism, physique, defense, attack, technique.
-- All attributes associated to playing: pace, strength, stand tackle, slide tackle, acceleration, finishing, power, accuracy, curve, dribble, pass, long pass, vision, marking, positioning.
+- All attributes associated to playing: pace, strength, stand tackle, slide tackle, acceleration, finishing, power, accuracy, curve, dribble, pass, long pass, vision, marking, positioning, form, morale.
 - Scout attributes: first name, last name, country, team, salary.
 - A team can set any player on the transfer list.
 - Buyer and seller teams can negotiate transfer deal.
