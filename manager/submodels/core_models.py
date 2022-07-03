@@ -5,7 +5,6 @@ from django.contrib.auth import get_user_model
 from django.db import models
 
 from manager.submodels.base_models import (
-    AttributeCategory,
     BaseEmployee,
     BaseModel,
     BaseStatus,
@@ -15,6 +14,7 @@ from manager.submodels.user_models import Manager
 
 
 UserModel = get_user_model()
+DEFAULT_ATTRIBUTE_VALUE = settings.DEFAULT_ATTRIBUTE_VALUE
 
 class PlayerPosition(BaseModel):
     position = models.CharField(max_length=settings.MAX_LENGTH, unique=True)
@@ -75,6 +75,7 @@ class Team(BaseModel):
         on_delete=models.CASCADE,
     )
     value = models.PositiveBigIntegerField(default=settings.DEFAULT_VALUE, editable=False)
+    earning = models.PositiveBigIntegerField(default=0)
     has_manager = models.BooleanField(default=False)
     starting_manager_salary = models.PositiveBigIntegerField()
     existing = models.BooleanField(default=True, null=False)
@@ -104,6 +105,32 @@ class Player(BaseEmployee):
         null=False,
         on_delete=models.CASCADE,
     )
+    earning = models.PositiveBigIntegerField(default=0)
+    salary = models.PositiveBigIntegerField(default=0)
+    pace = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    acceleration = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    strength = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    stand_tackle = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    slide_tackle = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    power = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    finishing = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    balance = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    reaction = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    curve = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    freekick = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    positioning = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    vision = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    marking = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    shortpass = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    longpass = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    longshot = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    dribbling = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    ballcontrol = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    heading = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    jumping = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    marking = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    form = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
+    morale = models.PositiveBigIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
     join_date = models.DateField()
 
 class BaseOffer(BaseModel):
@@ -195,19 +222,9 @@ class ManagerNegotiation(BaseNegotiation):
         on_delete=models.CASCADE,
     )
 
-class BaseAttribute(BaseModel):
-    player = models.ForeignKey(
-        to=Player,
-        null=False,
-        on_delete=models.CASCADE,
-    )
-    value = models.PositiveSmallIntegerField()
-    category = models.ForeignKey(
-        to=AttributeCategory,
-        null=True,
-        editable=False,
-        on_delete=models.SET_NULL,
-    )
+class AttributeCategory(BaseModel):
+    attribute = models.CharField(max_length=settings.MAX_LENGTH, unique=True, null=False)
+    category = models.CharField(max_length=settings.MAX_LENGTH, null=False, unique=True)
 
-    class Meta:
-        abstract = True
+    def __str__(self):
+        return f'{self.attribute} {self.category}'
