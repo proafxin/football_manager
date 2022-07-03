@@ -2,12 +2,26 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from manager.models import (
+    AttributeCategory,
+    ContractType,
+    Country,
+    OfferStatus,
+    OfferType,
     Player,
+    PlayerPosition,
+    PlayerStatus,
     User,
 )
 
 
+admin.site.register(AttributeCategory)
+admin.site.register(ContractType)
+admin.site.register(Country)
+admin.site.register(OfferStatus)
+admin.site.register(OfferType)
 admin.site.register(Player)
+admin.site.register(PlayerPosition)
+admin.site.register(PlayerStatus)
 
 class UserAdmin(BaseUserAdmin):
     """Define Admin for User with email and no username"""

@@ -47,9 +47,3 @@ class BaseStatus(BaseModel):
     
     class Meta:
         abstract = True
-
-class AttributeCategory(BaseModel):
-    name = models.CharField(max_length=settings.MAX_LENGTH, unique=True)
-
-    def __str__(self):
-        return self.name
