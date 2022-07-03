@@ -4,7 +4,7 @@ A virtual backend simulation of football manager mode.
 ## Features
 - User can play as a manager of an existing team or create a new club.
 - Each team initially has a number of players (may vary from team to team).
-- Manager can choose to hire scouts to scout new players for the team.
+- Manager can choose to hire scouts to scout new players for the team (lower priority so will be implemented last, if at all).
 - Team attributes: name, country, owner, players, budget, value, starting manager salary.
 - Player attributes: first name, last name, country, team, value, price, position, status, date of birth, and Attributes (associated to playing).
 - Categories of attributes: athletism, physique, defense, attack, technique.
