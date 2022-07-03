@@ -24,7 +24,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = environ['FIFA_MANAGER_DJANGO_SECRET_KEY']
 
-MAX_OFFER_ITERATION = 3
 TRANSFER_WINDOW_DAYS = 30
 PLAYER_SELL_EMBARGO_DAYS = 180
 MAX_LENGTH = 100
