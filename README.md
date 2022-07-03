@@ -16,8 +16,8 @@ A virtual backend simulation of football manager mode.
 - Players can be free agents.
 - Team can buy players or take players on loan.
 - In loans, dealing teams must agree on proportions of contribution to the salary of the player.
-- Players and Managers can negotiate salary with the team
-- Managers can search for jobs
+- Players and Managers can negotiate salary with the team.
+- Managers can search for jobs.
 
 ## Setup Database and Environment
 The database used here is `MySQL`. Create the following environment variables in your operating system with appropriate values for Django to access the database.
