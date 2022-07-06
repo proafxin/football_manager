@@ -1,3 +1,2 @@
-from django.shortcuts import render
+"""Define views for exposing API endpoints"""
 
-# Create your views here.

@@ -9,10 +9,10 @@ This helps implement the principle: make models as fat as necessary but not view
 
 
 
-def get_error(message, status_code):
-    error = {
-        'message': message,
-        'status_code': status_code,
-    }
+# def get_error(message, status_code):
+#     error = {
+#         'message': message,
+#         'status_code': status_code,
+#     }
 
-    return error
+#     return error
