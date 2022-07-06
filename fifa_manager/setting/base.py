@@ -53,9 +53,16 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'coreapi',
     'drf_yasg',
+    # 'django_nose',
     'silk',
     'manager',
 ]
+
+# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+# NOSE_ARGS = [
+#     '--with-coverage',
+#     '--cover-package=manager',
+# ]
 
 AUTH_USER_MODEL = 'manager.User'
 
@@ -138,6 +145,9 @@ DATABASES = {
             'user': DATABASE_USERNAME,
             'password': DATABASE_PASSWORD,
             'port': int(DATABASE_PORT),
+        },
+        'TEST': {
+            'NAME': 'auto_tests',
         },
     },
 }
