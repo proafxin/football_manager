@@ -47,3 +47,4 @@ Finally, run the project using `python manage.py runserver 8000`. You can specif
 - Put different tests in different modules.
 - Test all modules and get close to 100% coverage.
 - Maintain code quality using pylint.
+- Split settings for different uses. Testing will be done using the `testing` setting in `fifa_manager.setting.testing`.
