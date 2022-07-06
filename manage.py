@@ -15,7 +15,7 @@ def main():
     if running_tests:
         from coverage import Coverage
 
-        cov = Coverage()
+        cov = Coverage(source=['manager'], omit=['manage.py'])
         cov.erase()
         cov.start()
 
@@ -32,7 +32,7 @@ def main():
     if running_tests:
         cov.stop()
         cov.save()
-        covered = cov.report()
+        covered = cov.report(show_missing=True)
         percentage = 95
         if covered < percentage:
             print(f'Coverage < {percentage}')
