@@ -5,13 +5,23 @@ from django.db import models
 
 
 class BaseModel(models.Model):
+    """Abstract model for other models to inherit"""
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class  Meta:
+        """Make this model abstract"""
         abstract = True
 
 class Country(BaseModel):
+    """
+    Country model
+
+    Parameters
+    ----------
+    name : str
+        Name of the country.
+    """
     name = models.CharField(max_length=settings.MAX_LENGTH, unique=True)
 
     def __str__(self):
