@@ -34,7 +34,7 @@ Generate a Django secret key and assign it to the environment variable `FIFA_MAN
 Run `python manage.py makemigrations manager` and `python manage.py makemigrations`. Then run `python manage.py migrate`. This will create the necessary tables for the application to run.
 
 ## Testing and Running
-Run the tests using the command `coverage run --omit='*manage.py' .\manage.py test manager.tests --settings='fifa_manager.setting.testing'`. See that all tests are passed. After all tests pass, run `coverage report -m` and check that coverage is at least 90%. Then run `pylint .\manager\ --ignore=migrations,admin.py,apps.py` and verify that the score is 10/10 with no errors/warnings in pylint.
+Run the tests using the command `python .\manage.py test --settings='fifa_manager.setting.testing'`. See that all tests are passed. After all tests pass, run `coverage report -m` and check that coverage is at least 90%. Then run `pylint .\manager\ --ignore=migrations,admin.py,apps.py` and verify that the score is 10/10 with no errors/warnings in pylint.
 
 Finally, run the project using `python manage.py runserver 8000`. You can specify another port if necessary.
 
