@@ -1,3 +1,5 @@
+![Tests](https://github.com/mCodingLLC/SlapThatLikeButton-TestingStarterProject/actions/workflows/test.yml/badge.svg)
+
 # Virtual Football Manager
 A virtual backend simulation of football manager mode.
 
