@@ -14,14 +14,6 @@ from manager.models import (
 )
 
 
-admin.site.register(AttributeCategory)
-admin.site.register(ContractType)
-admin.site.register(Country)
-admin.site.register(OfferStatus)
-admin.site.register(OfferType)
-admin.site.register(Player)
-admin.site.register(PlayerPosition)
-admin.site.register(PlayerStatus)
 
 class UserAdmin(BaseUserAdmin):
     """Define Admin for User with email and no username"""
@@ -67,3 +59,11 @@ class UserAdmin(BaseUserAdmin):
     filter_horizontal = ()
 
 admin.site.register(User, UserAdmin)
+admin.site.register(AttributeCategory)
+admin.site.register(ContractType)
+admin.site.register(Country)
+admin.site.register(OfferStatus)
+admin.site.register(OfferType)
+admin.site.register(Player)
+admin.site.register(PlayerPosition)
+admin.site.register(PlayerStatus)
