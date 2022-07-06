@@ -355,3 +355,8 @@ $RECYCLE.BIN/
 # End of https://www.toptal.com/developers/gitignore/api/python,django,visualstudiocode,macos,linux,windows
 */migrations/*_*.py
 .vscode/*
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
