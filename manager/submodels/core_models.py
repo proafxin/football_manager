@@ -17,27 +17,30 @@ UserModel = get_user_model()
 DEFAULT_ATTRIBUTE_VALUE = settings.DEFAULT_ATTRIBUTE_VALUE
 
 class PlayerPosition(BaseModel):
+    """Define different player positions."""
     position = models.CharField(max_length=settings.MAX_LENGTH, unique=True)
 
     def __str__(self):
-        return self.position
+        return str(self.position)
 
 class ContractType(BaseModel):
+    """Define different contract types of a player."""
     service = models.CharField(max_length=settings.MAX_LENGTH, unique=True)
 
     def __str__(self):
-        return self.service
+        return str(self.service)
 
 class TransferStatus(BaseStatus):
-    pass
+    """Define different status of Transfer"""
 
 class PlayerStatus(BaseStatus):
-    pass
+    """Define different status of Player"""
 
 class OfferStatus(BaseStatus):
-    pass
+    """Define different status of Offer"""
 
 class OfferType(BaseModel):
+    """Define different types of offer."""
     type = models.CharField(
         max_length=settings.MAX_LENGTH,
         unique=True,
@@ -46,9 +49,10 @@ class OfferType(BaseModel):
     )
 
     def __str__(self):
-        return self.type
+        return str(self.type)
 
 class League(BaseModel):
+    """Define the League model"""
     country = models.ForeignKey(
         to=Country,
         null=False,
@@ -57,6 +61,7 @@ class League(BaseModel):
     division = models.IntegerField()
 
 class Team(BaseModel):
+    """Define the Team model"""
     name = models.CharField(max_length=settings.MAX_LENGTH)
     owner = models.ForeignKey(
         to=UserModel,
@@ -81,6 +86,7 @@ class Team(BaseModel):
     existing = models.BooleanField(default=True, null=False)
 
 class Player(BaseEmployee):
+    """Define the player model"""
     team = models.ForeignKey(
         to=Team,
         null=True,
@@ -134,6 +140,7 @@ class Player(BaseEmployee):
     join_date = models.DateField()
 
 class BaseOffer(BaseModel):
+    """Define the base offer model"""
     asking_price = models.PositiveBigIntegerField()
     offered_price = models.PositiveBigIntegerField()
     player = models.ForeignKey(
@@ -142,11 +149,13 @@ class BaseOffer(BaseModel):
         editable=False,
         on_delete=models.CASCADE,
     )
-
+    # pylint: disable=too-few-public-methods
     class Meta:
+        """Make BaseOffer abstract"""
         abstract = True
 
 class Transfer(BaseOffer):
+    """Define the Transfer model"""
     buyer = models.ForeignKey(
         to=Team,
         null=False,
@@ -168,6 +177,7 @@ class Transfer(BaseOffer):
     )
 
 class CounterOffer(BaseOffer):
+    """Counter an Offer made"""
     buyer = models.ForeignKey(
         to=Team,
         null=False,
@@ -194,6 +204,7 @@ class CounterOffer(BaseOffer):
     )
 
 class BaseNegotiation(BaseModel):
+    """Define base model for negotiation of an entity with a team"""
     asking_salary = models.PositiveBigIntegerField()
     offer_salary = models.PositiveBigIntegerField()
     team = models.ForeignKey(
@@ -202,11 +213,13 @@ class BaseNegotiation(BaseModel):
         editable=False,
         on_delete=models.CASCADE,
     )
-
+    # pylint: disable=too-few-public-methods
     class Meta:
+        """Make BaseNegotiation abstract"""
         abstract = True
 
 class PlayerNegotiation(BaseNegotiation):
+    """Negotiate player salary"""
     player = models.ForeignKey(
         to=Player,
         null=False,
@@ -215,6 +228,7 @@ class PlayerNegotiation(BaseNegotiation):
     )
 
 class ManagerNegotiation(BaseNegotiation):
+    """Negotiate manager salary"""
     manager = models.ForeignKey(
         to=Manager,
         null=False,
@@ -223,6 +237,7 @@ class ManagerNegotiation(BaseNegotiation):
     )
 
 class AttributeCategory(BaseModel):
+    """Model to map each attribute to a category"""
     attribute = models.CharField(max_length=settings.MAX_LENGTH, unique=True, null=False)
     category = models.CharField(max_length=settings.MAX_LENGTH, null=False, unique=True)
 

@@ -101,6 +101,7 @@ class User(AbstractUser):
 UserModel = settings.AUTH_USER_MODEL
 
 class Manager(BasePerson):
+    """Define Manager corresponding to User model"""
     user = models.ForeignKey(
         to=UserModel,
         on_delete=models.CASCADE,
