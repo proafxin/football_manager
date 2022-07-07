@@ -15,8 +15,7 @@ class BaseModel(models.Model):
         abstract = True
 
 class Country(BaseModel):
-    """
-    Country model
+    """Define a Country
 
     Attributes
     ----------
