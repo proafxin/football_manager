@@ -4,7 +4,7 @@ Define business logic here
 Views will not directly interact with Models.
 Views will call a service from this layer.
 This layer will call models.
-This helps implement the principle: make models as fat as necessary but not views. 
+This helps implement the principle: make models as fat as necessary but not views.
 """
 
 
