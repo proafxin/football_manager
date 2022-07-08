@@ -142,3 +142,4 @@ class TestUserModels(TestCase):
         self.assertEqual(self.__user, manager.user)
         self.assertEqual(manager.first_name, first_name)
         self.assertEqual(manager.last_name, last_name)
+        self.assertEqual(str(manager), f'{first_name} {last_name}')
