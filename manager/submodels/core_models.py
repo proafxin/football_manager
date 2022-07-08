@@ -31,16 +31,16 @@ class ContractType(BaseModel):
         return str(self.service)
 
 class TransferStatus(BaseStatus):
-    """Define different status of Transfer"""
+    """Open or closed"""
 
 class PlayerStatus(BaseStatus):
-    """Define different status of Player"""
+    """Player for sale or not"""
 
 class OfferStatus(BaseStatus):
-    """Define different status of Offer"""
+    """Countered or Stalled or Accepted or Rejected"""
 
 class OfferType(BaseModel):
-    """Define different types of offer."""
+    """Buy/Loan"""
     type = models.CharField(
         max_length=settings.MAX_LENGTH,
         unique=True,
@@ -53,6 +53,7 @@ class OfferType(BaseModel):
 
 class League(BaseModel):
     """Define the League model"""
+    name = models.CharField(max_length=settings.MAX_LENGTH, null=True, default='')
     country = models.ForeignKey(
         to=Country,
         null=False,
@@ -60,9 +61,12 @@ class League(BaseModel):
     )
     division = models.IntegerField()
 
+    def __str__(self):
+        return str(self.name)
+
 class Team(BaseModel):
     """Define the Team model"""
-    name = models.CharField(max_length=settings.MAX_LENGTH)
+    name = models.CharField(max_length=settings.MAX_LENGTH, null=True, default='')
     owner = models.ForeignKey(
         to=UserModel,
         on_delete=models.CASCADE,
