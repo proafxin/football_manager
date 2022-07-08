@@ -31,6 +31,12 @@ class TestUserModels(TestCase):
         self.assertEqual(self.__user.is_superuser, False)
         self.assertEqual(str(self.__user), self.__email)
         self.assertTrue(self.__user.check_password(self.__password))
+        self.assertRaises(
+            ValueError,
+            UserModel.objects.create_user,
+            email=None,
+            password=get_random_string(length=15),
+        )
 
     def test_superuser(self):
         """UnitTest superuser creation"""
@@ -92,6 +98,34 @@ class TestUserModels(TestCase):
             user=self.__user,
         )
         date_of_birth = datetime.date(
+            year=2004,
+            month=10,
+            day=1,
+        )
+        # pylint: disable=no-member
+        self.assertRaises(
+            ValueError,
+            Manager.objects.create,
+            first_name=first_name,
+            last_name=last_name,
+            date_of_birth=date_of_birth,
+            user=self.__user,
+        )
+        date_of_birth = datetime.date(
+            year=2004,
+            month=7,
+            day=10,
+        )
+        # pylint: disable=no-member
+        self.assertRaises(
+            ValueError,
+            Manager.objects.create,
+            first_name=first_name,
+            last_name=last_name,
+            date_of_birth=date_of_birth,
+            user=self.__user,
+        )
+        date_of_birth = datetime.date(
             year=1970,
             month=1,
             day=1,
@@ -108,3 +142,4 @@ class TestUserModels(TestCase):
         self.assertEqual(self.__user, manager.user)
         self.assertEqual(manager.first_name, first_name)
         self.assertEqual(manager.last_name, last_name)
+        self.assertEqual(str(manager), f'{first_name} {last_name}')

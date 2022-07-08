@@ -72,6 +72,7 @@ class BaseStatus(BaseModel):
 
     def __str__(self):
         return str(self.status)
+
     # pylint: disable=too-few-public-methods
     class Meta:
         """Make BaseStatus abstract"""
