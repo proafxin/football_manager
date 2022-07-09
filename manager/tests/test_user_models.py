@@ -111,11 +111,7 @@ class TestUserModels(TestCase):
             date_of_birth=date_of_birth,
             user=self.__user,
         )
-        date_of_birth = datetime.date(
-            year=2004,
-            month=7,
-            day=10,
-        )
+        date_of_birth = datetime.datetime.now()+datetime.timedelta(days=1)
         # pylint: disable=no-member
         self.assertRaises(
             ValueError,
