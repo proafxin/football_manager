@@ -29,7 +29,7 @@ The database used here is `MySQL`. Create the following environment variables in
 - DATABASE_PASSWORD
 - DATABASE_PORT
 
-Go to MySQL terminal as root user. Run `show databases;` and see the list of databases. If your database is not created, run `create database {DATABASE_NAME};`. Replace {DATABASE_NAME} with the value of the environment variable. Run `show databases;` again and make sure the database is in the list. Run `CREATE USER '{DATABASE_USERNAME}'@'{DATABASE_HOST}' IDENTIFIED BY '{DATABASE_PASSWORD}';` then `GRANT ALL ON DATABASE_NAME.* TO '{DATABASE_USERNAME}'@'{DATABASE_HOST}';` and `FLUSH PRIVILEGES;`. Replace the variables with appropriate values from environment variables. If your database is hosted in your machine, `{DATABASE_HOST}` should be `localhost`.
+Go to MySQL terminal as root user. Run `show databases;` and see the list of databases. If your database is not created, run `create database {DATABASE_NAME};`. Replace {DATABASE_NAME} with the value of the environment variable. Run `show databases;` again and make sure the database is in the list. Run `CREATE USER '{DATABASE_USERNAME}'@'{DATABASE_HOST}' IDENTIFIED BY '{DATABASE_PASSWORD}';` then `GRANT ALL ON DATABASE_NAME.* TO '{DATABASE_USERNAME}'@'{DATABASE_HOST}';` and `FLUSH PRIVILEGES;`. Replace the variables with appropriate values from environment variables. If your database is hosted in your machine, `{DATABASE_HOST}` should be `localhost`. Make sure that the user you create has permission to create test database when tox runs the tests.
 
 Make sure you have `virtualenv` installed (`python -m pip install virtualenv`). You may need to specify `python3` instead of `python` depending on your system. Create a virtual environment in your root project directory using `virtualenv env`. Activate the environment using `env/Scripts/activate` on Windows or `source bin/activate` on Linux/Mac. When you are done, you can deactivate the environment by using `deactivate`. Inside the environment, run `python -m pip install -r requirements.txt`.
 
@@ -40,7 +40,7 @@ Run `python manage.py makemigrations manager` and `python manage.py makemigratio
 ## Testing and Running
 Activate the virtual environment in your root project directory. Run `tox` command. See that all commands succeed.
 
-If you want to run the commands individually, run the tests using the command `python .\manage.py test --settings='fifa_manager.setting.testing'`. See that all tests are passed. After all tests pass, run `coverage report -m` and check that coverage is at least 95%. Then run `pylint .\manager\ --ignore=migrations,admin.py,apps.py` and verify that the score is 10/10 with no errors/warnings in pylint.
+If you want to run the commands individually, run the tests using the command `python .\manage.py test --settings='fifa_manager.setting.testing'`. See that all tests are passed. After all tests pass, run `coverage report -m` and check that coverage is at least 95%. Then run `pylint .\manager\ --disable=wrong-import-order,too-many-instance-attributes --ignore=migrations,admin.py,apps.py` and verify that the score is 10/10 with no errors/warnings in pylint.
 
 Finally, run the project using `python manage.py runserver 8000`. You can specify another port if necessary.
 

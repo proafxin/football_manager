@@ -30,7 +30,7 @@ class UserManager(auth_models.BaseUserManager):
         User
         """
         if not email:
-            raise ValueError('The given email must be set')
+            raise ValueError("The given email must be set")
         email = self.normalize_email(email)
         user = self.model(email=email, **kwargs)
         user.set_password(password)
@@ -53,8 +53,8 @@ class UserManager(auth_models.BaseUserManager):
         -------
         User
         """
-        kwargs.setdefault('is_staff', False)
-        kwargs.setdefault('is_superuser', False)
+        kwargs.setdefault("is_staff", False)
+        kwargs.setdefault("is_superuser", False)
         return self._create_user(email, password, **kwargs)
 
     def create_superuser(self, email, password, **kwargs):
@@ -73,34 +73,39 @@ class UserManager(auth_models.BaseUserManager):
         -------
         User
         """
-        kwargs.setdefault('is_staff', True)
-        kwargs.setdefault('is_superuser', True)
+        kwargs.setdefault("is_staff", True)
+        kwargs.setdefault("is_superuser", True)
 
-        if kwargs.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if kwargs.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
+        if kwargs.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True.")
+        if kwargs.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True.")
 
         return self._create_user(email, password, **kwargs)
 
+
 class User(auth_models.AbstractUser):
     """User Model with email as username"""
+
     username = None
     email = models.EmailField(
-        verbose_name='Email',
+        verbose_name="Email",
         unique=True,
     )
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
     objects = UserManager()
 
     def __str__(self):
-        return f'{self.email}'
+        return f"{self.email}"
+
 
 UserModel = conf.settings.AUTH_USER_MODEL
 
+
 class Manager(base_models.BasePerson):
     """Define Manager corresponding to User model"""
+
     user = models.ForeignKey(
         to=UserModel,
         on_delete=models.CASCADE,
@@ -109,7 +114,7 @@ class Manager(base_models.BasePerson):
     def save(self, *args, **kwargs):
         today = datetime.now()
         # pylint: disable=no-member
-        num_years = today.year-self.date_of_birth.year
+        num_years = today.year - self.date_of_birth.year
         if (today.month == self.date_of_birth.month) and (today.day < self.date_of_birth.day):
             num_years -= 1
         elif today.month < self.date_of_birth.month:

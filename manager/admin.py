@@ -14,33 +14,33 @@ from manager.models import (
 )
 
 
-
 class UserAdmin(BaseUserAdmin):
     """Define Admin for User with email and no username"""
+
     fieldsets = (
         (
             None,
-            {'fields': ('email', 'password')},
+            {"fields": ("email", "password")},
         ),
         (
-            'Permissions',
-            {'fields': ('is_admin',)},
+            "Permissions",
+            {"fields": ("is_admin",)},
         ),
         (
-            'Permissions',
+            "Permissions",
             {
-                'fields': (
-                    'is_active',
-                    'is_staff',
-                    'is_superuser',
-                    'groups',
-                    'user_permissions',
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
                 )
             },
         ),
         (
-            'Important dates',
-            {'fields': ('last_login', 'date_joined')},
+            "Important dates",
+            {"fields": ("last_login", "date_joined")},
         ),
     )
 
@@ -48,15 +48,16 @@ class UserAdmin(BaseUserAdmin):
         (
             None,
             {
-                'classes': ('wide',),
-                'fields': ('email', 'password1', 'password2'),
+                "classes": ("wide",),
+                "fields": ("email", "password1", "password2"),
             },
         ),
     )
-    list_display = ('email', 'first_name', 'last_name', 'is_staff')
-    search_fields = ('email', 'first_name', 'last_name')
-    ordering = ('email',)
+    list_display = ("email", "first_name", "last_name", "is_staff")
+    search_fields = ("email", "first_name", "last_name")
+    ordering = ("email",)
     filter_horizontal = ()
+
 
 admin.site.register(User, UserAdmin)
 admin.site.register(AttributeCategory)
