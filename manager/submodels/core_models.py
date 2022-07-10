@@ -1,48 +1,43 @@
-"""Define models for Fifa Manager"""
+"""Define models for Fifa user_models.Manager"""
 
-from django.conf import settings
+from django import conf
 from django.contrib.auth import get_user_model
 from django.db import models
 
-from manager.submodels.base_models import (
-    BaseEmployee,
-    BaseModel,
-    BaseStatus,
-    Country,
-)
-from manager.submodels.user_models import Manager
+from manager.submodels import base_models
+from manager.submodels import user_models
 
 
 UserModel = get_user_model()
-DEFAULT_ATTRIBUTE_VALUE = settings.DEFAULT_ATTRIBUTE_VALUE
+DEFAULT_ATTRIBUTE_VALUE = conf.settings.DEFAULT_ATTRIBUTE_VALUE
 
-class PlayerPosition(BaseModel):
+class PlayerPosition(base_models.BaseModel):
     """Define different player positions."""
-    position = models.CharField(max_length=settings.MAX_LENGTH, unique=True)
+    position = models.CharField(max_length=conf.settings.MAX_LENGTH, unique=True)
 
     def __str__(self):
         return str(self.position)
 
-class ContractType(BaseModel):
+class ContractType(base_models.BaseModel):
     """Define different contract types of a player."""
-    service = models.CharField(max_length=settings.MAX_LENGTH, unique=True)
+    service = models.CharField(max_length=conf.settings.MAX_LENGTH, unique=True)
 
     def __str__(self):
         return str(self.service)
 
-class TransferStatus(BaseStatus):
+class TransferStatus(base_models.BaseStatus):
     """Open or closed"""
 
-class PlayerStatus(BaseStatus):
+class PlayerStatus(base_models.BaseStatus):
     """Player for sale or not"""
 
-class OfferStatus(BaseStatus):
+class OfferStatus(base_models.BaseStatus):
     """Countered or Stalled or Accepted or Rejected"""
 
-class OfferType(BaseModel):
+class OfferType(base_models.BaseModel):
     """Buy/Loan"""
     type = models.CharField(
-        max_length=settings.MAX_LENGTH,
+        max_length=conf.settings.MAX_LENGTH,
         unique=True,
         null=False,
         editable=False,
@@ -51,11 +46,11 @@ class OfferType(BaseModel):
     def __str__(self):
         return str(self.type)
 
-class League(BaseModel):
+class League(base_models.BaseModel):
     """Define the League model"""
-    name = models.CharField(max_length=settings.MAX_LENGTH, null=True, default='')
+    name = models.CharField(max_length=conf.settings.MAX_LENGTH, null=True, default='')
     country = models.ForeignKey(
-        to=Country,
+        to=base_models.Country,
         null=False,
         on_delete=models.CASCADE,
     )
@@ -64,32 +59,32 @@ class League(BaseModel):
     def __str__(self):
         return str(self.name)
 
-class Team(BaseModel):
+class Team(base_models.BaseModel):
     """Define the Team model"""
-    name = models.CharField(max_length=settings.MAX_LENGTH, null=True, default='')
+    name = models.CharField(max_length=conf.settings.MAX_LENGTH, null=True, default='')
     owner = models.ForeignKey(
         to=UserModel,
         on_delete=models.CASCADE,
         editable=False,
     )
     manager = models.ForeignKey(
-        to=Manager,
+        to=user_models.Manager,
         null=True,
         on_delete=models.SET_NULL,
     )
-    budget = models.PositiveBigIntegerField(default=settings.DEFAULT_BUDGET, editable=False)
+    budget = models.PositiveBigIntegerField(default=conf.settings.DEFAULT_BUDGET, editable=False)
     league = models.ForeignKey(
         to=League,
         null=False,
         on_delete=models.CASCADE,
     )
-    value = models.PositiveBigIntegerField(default=settings.DEFAULT_VALUE, editable=False)
+    value = models.PositiveBigIntegerField(default=conf.settings.DEFAULT_VALUE, editable=False)
     earning = models.PositiveBigIntegerField(default=0)
     has_manager = models.BooleanField(default=False)
     starting_manager_salary = models.PositiveBigIntegerField()
     existing = models.BooleanField(default=True, null=False)
 
-class Player(BaseEmployee):
+class Player(base_models.BaseEmployee):
     """Define the player model"""
     team = models.ForeignKey(
         to=Team,
@@ -143,7 +138,7 @@ class Player(BaseEmployee):
     morale = models.PositiveBigIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
     join_date = models.DateField()
 
-class BaseOffer(BaseModel):
+class BaseOffer(base_models.BaseModel):
     """Define the base offer model"""
     asking_price = models.PositiveBigIntegerField()
     offered_price = models.PositiveBigIntegerField()
@@ -207,7 +202,7 @@ class CounterOffer(BaseOffer):
         on_delete=models.CASCADE,
     )
 
-class BaseNegotiation(BaseModel):
+class BaseNegotiation(base_models.BaseModel):
     """Define base model for negotiation of an entity with a team"""
     asking_salary = models.PositiveBigIntegerField()
     offer_salary = models.PositiveBigIntegerField()
@@ -234,16 +229,16 @@ class PlayerNegotiation(BaseNegotiation):
 class ManagerNegotiation(BaseNegotiation):
     """Negotiate manager salary"""
     manager = models.ForeignKey(
-        to=Manager,
+        to=user_models.Manager,
         null=False,
         editable=False,
         on_delete=models.CASCADE,
     )
 
-class AttributeCategory(BaseModel):
+class AttributeCategory(base_models.BaseModel):
     """Model to map each attribute to a category"""
-    attribute = models.CharField(max_length=settings.MAX_LENGTH, unique=True, null=False)
-    category = models.CharField(max_length=settings.MAX_LENGTH, null=False, unique=True)
+    attribute = models.CharField(max_length=conf.settings.MAX_LENGTH, unique=True, null=False)
+    category = models.CharField(max_length=conf.settings.MAX_LENGTH, null=False, unique=True)
 
     def __str__(self):
         return f'{self.attribute} {self.category}'
