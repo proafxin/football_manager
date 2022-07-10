@@ -1,34 +1,25 @@
 """Test core models"""
 
-from __future__ import division
-from django.conf import settings
-from rest_framework.test import APITestCase
+from django import conf
 
-from manager.models import (
-    ContractType,
-    Country,
-    League,
-    OfferStatus,
-    OfferType,
-    PlayerPosition,
-    PlayerStatus,
-    TransferStatus,
-)
+from rest_framework import test
+
+from manager import models
 
 
-MAX_LENGTH = settings.MAX_LENGTH
+MAX_LENGTH = conf.settings.MAX_LENGTH
 
-class TestCoreModels(APITestCase):
+class TestCoreModels(test.APITestCase):
     """Test all core models"""
     # pylint: disable=too-many-instance-attributes
     def setUp(self):
         """Create each of the core models once at the start of each test"""
         self.__position = 'DEFENDER'
         # pylint: disable=no-member
-        self.__player_position = PlayerPosition.objects.create(position=self.__position)
+        self.__player_position = models.PlayerPosition.objects.create(position=self.__position)
         self.__service = 'FREE AGENT'
         # pylint: disable=no-member
-        self.__contract_type = ContractType.objects.create(service=self.__service)
+        self.__contract_type = models.ContractType.objects.create(service=self.__service)
         self.__status = {
             'transfer': ['OPEN', 'CLOSED'],
             'player': ['FOR SALE', 'NOT FOR SALE'],
@@ -45,79 +36,79 @@ class TestCoreModels(APITestCase):
 
         for status in self.__status['transfer']:
             # pylint: disable=no-member
-            self.__transfer_status.append(TransferStatus.objects.create(status=status))
+            self.__transfer_status.append(models.TransferStatus.objects.create(status=status))
         for status in self.__status['player']:
             # pylint: disable=no-member
-            self.__player_status.append(PlayerStatus.objects.create(status=status))
+            self.__player_status.append(models.PlayerStatus.objects.create(status=status))
         for status in self.__status['offer']:
             # pylint: disable=no-member
-            self.__offer_status.append(OfferStatus.objects.create(status=status))
+            self.__offer_status.append(models.OfferStatus.objects.create(status=status))
         for offer_type in self.__types_offer:
             # pylint: disable=no-member
-            self.__offer_types.append(OfferType.objects.create(type=offer_type))
+            self.__offer_types.append(models.OfferType.objects.create(type=offer_type))
         for i, name in enumerate(self.__country_names):
             # pylint: disable=no-member
-            country = Country.objects.create(name=name)
-            self.__leagues.append(League.objects.create(country=country, division=i))
+            country = models.Country.objects.create(name=name)
+            self.__leagues.append(models.League.objects.create(country=country, division=i))
             self.__countries.append(country)
 
     def test_player_position(self):
-        """Test PlayerPosition"""
+        """Test models.PlayerPosition"""
         self.assertIsNotNone(self.__player_position)
         # pylint: disable=no-member
-        self.assertEqual(PlayerPosition.objects.count(), 1)
+        self.assertEqual(models.PlayerPosition.objects.count(), 1)
         self.assertEqual(self.__player_position.position, self.__position)
         self.assertEqual(str(self.__player_position), self.__position)
 
     def test_contract_type(self):
-        """Test ContractType"""
+        """Test models.ContractType"""
         # pylint: disable=no-member, protected-access
-        self.assertEqual(ContractType._meta.get_field('service').max_length, MAX_LENGTH)
+        self.assertEqual(models.ContractType._meta.get_field('service').max_length, MAX_LENGTH)
         self.assertIsNotNone(self.__contract_type)
         # pylint: disable=no-member
-        self.assertEqual(ContractType.objects.count(), 1)
-        self.assertEqual(self.__contract_type, ContractType.objects.first())
+        self.assertEqual(models.ContractType.objects.count(), 1)
+        self.assertEqual(self.__contract_type, models.ContractType.objects.first())
         self.assertEqual(str(self.__contract_type), self.__service)
         self.assertEqual(self.__contract_type.service, self.__service)
 
     def test_transfer_status(self):
-        """Test TransferStatus"""
+        """Test models.TransferStatus"""
         # pylint: disable=no-member, protected-access
-        self.assertEqual(TransferStatus._meta.get_field('status').max_length, MAX_LENGTH)
+        self.assertEqual(models.TransferStatus._meta.get_field('status').max_length, MAX_LENGTH)
         for transfer_status, status in zip(self.__transfer_status, self.__status['transfer']):
             self.assertIsNotNone(transfer_status)
             self.assertEqual(str(transfer_status), status)
             self.assertEqual(transfer_status.status, status)
 
     def test_player_status(self):
-        """Test PlayerStatus"""
+        """Test models.PlayerStatus"""
         # pylint: disable=no-member, protected-access
-        self.assertEqual(PlayerStatus._meta.get_field('status').max_length, MAX_LENGTH)
+        self.assertEqual(models.PlayerStatus._meta.get_field('status').max_length, MAX_LENGTH)
         for player_status, status in zip(self.__player_status, self.__status['player']):
             self.assertIsNotNone(player_status)
             self.assertEqual(str(player_status), status)
             self.assertEqual(player_status.status, status)
 
     def test_offer_status(self):
-        """Test OfferStatus"""
+        """Test models.OfferStatus"""
         # pylint: disable=no-member, protected-access
-        self.assertEqual(OfferStatus._meta.get_field('status').max_length, MAX_LENGTH)
+        self.assertEqual(models.OfferStatus._meta.get_field('status').max_length, MAX_LENGTH)
         for offer_status, status in zip(self.__offer_status, self.__status['offer']):
             self.assertIsNotNone(offer_status)
             self.assertEqual(str(offer_status), status)
             self.assertEqual(offer_status.status, status)
 
     def test_offer_type(self):
-        """Test OfferType"""
+        """Test models.OfferType"""
         # pylint: disable=no-member, protected-access
-        self.assertEqual(OfferType._meta.get_field('type').max_length, MAX_LENGTH)
+        self.assertEqual(models.OfferType._meta.get_field('type').max_length, MAX_LENGTH)
         for offer_type, _type in zip(self.__offer_types, self.__types_offer):
             self.assertIsNotNone(offer_type)
             self.assertEqual(str(offer_type), _type)
             self.assertEqual(offer_type.type, _type)
 
     def test_league(self):
-        """Test League"""
+        """Test models.League"""
         for country, league in zip(self.__countries, self.__leagues):
             self.assertIsNotNone(league)
             self.assertEqual(str(league), '')

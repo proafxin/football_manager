@@ -2,17 +2,14 @@
 
 from datetime import datetime
 
-from django.conf import settings
-from django.contrib.auth.models import (
-    AbstractUser,
-    BaseUserManager,
-)
+from django import conf
+from django.contrib.auth import models as auth_models
 from django.db import models
 
-from manager.submodels.base_models import BasePerson
+from manager.submodels import base_models
 
 
-class UserManager(BaseUserManager):
+class UserManager(auth_models.BaseUserManager):
     """User manager model with email and no username"""
 
     use_in_migrations = True
@@ -86,7 +83,7 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, password, **kwargs)
 
-class User(AbstractUser):
+class User(auth_models.AbstractUser):
     """User Model with email as username"""
     username = None
     email = models.EmailField(
@@ -100,9 +97,9 @@ class User(AbstractUser):
     def __str__(self):
         return f'{self.email}'
 
-UserModel = settings.AUTH_USER_MODEL
+UserModel = conf.settings.AUTH_USER_MODEL
 
-class Manager(BasePerson):
+class Manager(base_models.BasePerson):
     """Define Manager corresponding to User model"""
     user = models.ForeignKey(
         to=UserModel,
