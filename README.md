@@ -40,7 +40,7 @@ Run `python manage.py makemigrations manager` and `python manage.py makemigratio
 ## Testing and Running
 Activate the virtual environment in your root project directory. Run `tox` command. See that all commands succeed.
 
-If you want to run the commands individually, run the tests using the command `python .\manage.py test --settings='fifa_manager.setting.testing'`. See that all tests are passed. After all tests pass, run `coverage report -m` and check that coverage is at least 95%. Then run `pylint .\manager\ --ignore=migrations,admin.py,apps.py` and verify that the score is 10/10 with no errors/warnings in pylint.
+If you want to run the commands individually, run the tests using the command `python .\manage.py test --settings='fifa_manager.setting.testing'`. See that all tests are passed. After all tests pass, run `coverage report -m` and check that coverage is at least 95%. Then run `pylint .\manager\ --disable=wrong-import-order,too-many-instance-attributes --ignore=migrations,admin.py,apps.py` and verify that the score is 10/10 with no errors/warnings in pylint.
 
 Finally, run the project using `python manage.py runserver 8000`. You can specify another port if necessary.
 
