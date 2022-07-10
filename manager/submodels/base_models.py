@@ -14,18 +14,14 @@ class BaseModel(models.Model):
 
     # pylint: disable=too-few-public-methods
     class Meta:
-        """Make this model abstract"""
+        """Abstract base class for models"""
 
         abstract = True
 
 
 class Country(BaseModel):
-    """Define a Country
-
-    Attributes
-    ----------
-    name : str
-        Name of the country.
+    """
+    Country model
     """
 
     name = models.CharField(max_length=MAX_LENGTH, unique=True)
@@ -35,17 +31,8 @@ class Country(BaseModel):
 
 
 class BasePerson(BaseModel):
-    """Define a person
-    Attributes
-    ----------
-    first_name : str
-        First name of the person.
-    last_name: str
-        Last name of the person.
-    date_of_birth : datetime.date
-        Date of birth of the person.
-    country : Country
-        Country of the person.
+    """
+    BasePerson model
     """
 
     first_name = models.CharField(max_length=MAX_LENGTH, null=True)
@@ -58,6 +45,9 @@ class BasePerson(BaseModel):
     )
 
     def __str__(self):
+        """
+        Return the human readable name for BasePerson.
+        """
         return f"{self.first_name} {self.last_name}"
 
     # pylint: disable=too-few-public-methods
