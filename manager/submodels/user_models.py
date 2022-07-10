@@ -18,16 +18,12 @@ class UserManager(auth_models.BaseUserManager):
         """
         Helper to create a User with email and password.
 
-        Parameters
-        ----------
-        email: EmailField
-            Email of the user signing up.
-        password: str
-            Password of the user
-
-        Returns
-        -------
-        User
+        :param email: Email of the user.
+            Must be a valid email.
+        :type email: models.EmailField.
+        :param password: Password of the user.
+        :returns: User created using the email and password and other fields from arguments.
+        :rtype: User
         """
         if not email:
             raise ValueError("The given email must be set")
@@ -42,16 +38,8 @@ class UserManager(auth_models.BaseUserManager):
         Create a normal User with email and password.
         Set is_staff and is_superuser to False by default.
 
-        Parameters
-        ----------
-        email: EmailField
-            Email of the user signing up.
-        password: str
-            Password of the user
-
-        Returns
-        -------
-        User
+        :return: A normal user created using email and password.
+        :rtype: User
         """
         kwargs.setdefault("is_staff", False)
         kwargs.setdefault("is_superuser", False)
@@ -62,16 +50,8 @@ class UserManager(auth_models.BaseUserManager):
         Create a normal User with email and password.
         Set is_staff and is_superuser to True by default.
 
-        Parameters
-        ----------
-        email: EmailField
-            Email of the user signing up.
-        password: str
-            Password of the user
-
-        Returns
-        -------
-        User
+        :return: A super user created using email and password.
+        :rtype: User
         """
         kwargs.setdefault("is_staff", True)
         kwargs.setdefault("is_superuser", True)

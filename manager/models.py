@@ -5,7 +5,6 @@ from manager.submodels.base_models import Country
 # pylint: disable=unused-import
 from manager.submodels.core_models import (
     AttributeCategory,
-    ContractType,
     CounterOffer,
     League,
     ManagerNegotiation,
