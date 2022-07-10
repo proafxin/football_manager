@@ -47,7 +47,7 @@ class UserManager(auth_models.BaseUserManager):
 
     def create_superuser(self, email, password, **kwargs):
         """
-        Create a normal User with email and password.
+        Create a super User with email and password.
         Set is_staff and is_superuser to True by default.
 
         :return: A super user created using email and password.
