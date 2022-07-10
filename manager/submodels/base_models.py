@@ -1,8 +1,10 @@
 """Define base models to inherit later"""
 
-from django.conf import settings
+from django import conf
 from django.db import models
 
+
+MAX_LENGTH = conf.settings.MAX_LENGTH
 
 class BaseModel(models.Model):
     """Abstract model for other models to inherit"""
@@ -22,7 +24,7 @@ class Country(BaseModel):
     name : str
         Name of the country.
     """
-    name = models.CharField(max_length=settings.MAX_LENGTH, unique=True)
+    name = models.CharField(max_length=MAX_LENGTH, unique=True)
 
     def __str__(self):
         return str(self.name)
@@ -40,8 +42,8 @@ class BasePerson(BaseModel):
     country : Country
         Country of the person.
     """
-    first_name = models.CharField(max_length=settings.MAX_LENGTH, null=True)
-    last_name = models.CharField(max_length=settings.MAX_LENGTH, null=True)
+    first_name = models.CharField(max_length=MAX_LENGTH, null=True)
+    last_name = models.CharField(max_length=MAX_LENGTH, null=True)
     date_of_birth = models.DateField(editable=False, null=False)
     country = models.ForeignKey(
         to=Country,
@@ -68,7 +70,7 @@ class BaseEmployee(BasePerson):
 
 class BaseStatus(BaseModel):
     """Define abstract status model"""
-    status = models.CharField(max_length=settings.MAX_LENGTH, unique=True)
+    status = models.CharField(max_length=MAX_LENGTH, unique=True)
 
     def __str__(self):
         return str(self.status)
