@@ -6,7 +6,7 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'fifa_manager.settings')
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "fifa_manager.settings")
     try:
         command = sys.argv[1]
     except IndexError:
@@ -15,7 +15,7 @@ def main():
     if running_tests:
         from coverage import Coverage
 
-        cov = Coverage(source=['manager'], omit=['manage.py'])
+        cov = Coverage(source=["manager"], omit=["manage.py"])
         cov.erase()
         cov.start()
 
@@ -35,9 +35,9 @@ def main():
         covered = cov.report(show_missing=True)
         percentage = 95
         if covered < percentage:
-            print(f'Coverage < {percentage}')
+            print(f"Coverage < {percentage}")
             sys.exit(1)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

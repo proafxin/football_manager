@@ -8,7 +8,6 @@ from django.utils.crypto import get_random_string
 
 from manager import models
 
-
 UserModel = get_user_model()
 
 
@@ -16,7 +15,7 @@ class TestUserModels(test.TestCase):
     """Test all user models"""
 
     def setUp(self):
-        self.__email = 'test@test.com'
+        self.__email = "test@test.com"
         self.__password = get_random_string(length=16)
         self.__user = UserModel.objects.create_user(
             email=self.__email,
@@ -41,7 +40,7 @@ class TestUserModels(test.TestCase):
 
     def test_superuser(self):
         """UnitTest superuser creation"""
-        email = 'super@test.com'
+        email = "super@test.com"
         self.assertRaises(
             ValueError,
             UserModel.objects.create_superuser,
@@ -72,8 +71,8 @@ class TestUserModels(test.TestCase):
 
     def test_manager(self):
         """UnitTest manager creation"""
-        first_name = 'First'
-        last_name = 'Last'
+        first_name = "First"
+        last_name = "Last"
         date_of_birth = datetime.datetime.today()
         # pylint: disable=no-member
         self.assertRaises(
@@ -112,7 +111,7 @@ class TestUserModels(test.TestCase):
             date_of_birth=date_of_birth,
             user=self.__user,
         )
-        date_of_birth = datetime.datetime.now()+datetime.timedelta(days=1)
+        date_of_birth = datetime.datetime.now() + datetime.timedelta(days=1)
         # pylint: disable=no-member
         self.assertRaises(
             ValueError,
@@ -139,4 +138,4 @@ class TestUserModels(test.TestCase):
         self.assertEqual(self.__user, manager.user)
         self.assertEqual(manager.first_name, first_name)
         self.assertEqual(manager.last_name, last_name)
-        self.assertEqual(str(manager), f'{first_name} {last_name}')
+        self.assertEqual(str(manager), f"{first_name} {last_name}")
