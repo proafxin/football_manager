@@ -6,15 +6,17 @@ from django.db import models
 
 MAX_LENGTH = conf.settings.MAX_LENGTH
 
+
 class BaseModel(models.Model):
     """Abstract model for other models to inherit"""
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     # pylint: disable=too-few-public-methods
-    class  Meta:
+    class Meta:
         """Make this model abstract"""
         abstract = True
+
 
 class Country(BaseModel):
     """Define a Country
@@ -28,6 +30,7 @@ class Country(BaseModel):
 
     def __str__(self):
         return str(self.name)
+
 
 class BasePerson(BaseModel):
     """Define a person
@@ -59,6 +62,7 @@ class BasePerson(BaseModel):
         """Make BasePerson abstract."""
         abstract = True
 
+
 class BaseEmployee(BasePerson):
     """Add salary for an employee"""
     salary = models.PositiveBigIntegerField()
@@ -67,6 +71,7 @@ class BaseEmployee(BasePerson):
     class Meta:
         """Make BaseEmployee abstract"""
         abstract = True
+
 
 class BaseStatus(BaseModel):
     """Define abstract status model"""

@@ -11,6 +11,7 @@ from manager import models
 
 UserModel = get_user_model()
 
+
 class TestUserModels(test.TestCase):
     """Test all user models"""
 
@@ -73,7 +74,7 @@ class TestUserModels(test.TestCase):
         """UnitTest manager creation"""
         first_name = 'First'
         last_name = 'Last'
-        date_of_birth =  datetime.datetime.today()
+        date_of_birth = datetime.datetime.today()
         # pylint: disable=no-member
         self.assertRaises(
             ValueError,

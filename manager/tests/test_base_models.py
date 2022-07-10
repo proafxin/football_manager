@@ -12,13 +12,15 @@ from manager.submodels import base_models
 UserModel = get_user_model()
 MAX_LENGTH = conf.settings.MAX_LENGTH
 
+
 class TestBaseModels(test.TestCase):
     """Test all base models"""
 
     def test_country(self):
         """Test base_models.Country model"""
         # pylint: disable=no-member, protected-access
-        self.assertEqual(base_models.Country._meta.get_field('name').max_length, MAX_LENGTH)
+        self.assertEqual(base_models.Country._meta.get_field(
+            'name').max_length, MAX_LENGTH)
         country_name = 'Randombase_models.Country'
         # pylint: disable=no-member
         country = base_models.Country.objects.create(

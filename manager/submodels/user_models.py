@@ -83,6 +83,7 @@ class UserManager(auth_models.BaseUserManager):
 
         return self._create_user(email, password, **kwargs)
 
+
 class User(auth_models.AbstractUser):
     """User Model with email as username"""
     username = None
@@ -97,7 +98,9 @@ class User(auth_models.AbstractUser):
     def __str__(self):
         return f'{self.email}'
 
+
 UserModel = conf.settings.AUTH_USER_MODEL
+
 
 class Manager(base_models.BasePerson):
     """Define Manager corresponding to User model"""
