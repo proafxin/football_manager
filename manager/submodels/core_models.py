@@ -72,6 +72,9 @@ class Team(base_models.BaseModel):
         null=True,
         on_delete=models.SET_NULL,
     )
+    num_players = models.PositiveSmallIntegerField(
+        default=conf.settings.DEFAULT_INITIAL_PLAYER_NUMBER,
+    )
     budget = models.PositiveBigIntegerField(default=conf.settings.DEFAULT_BUDGET, editable=False)
     league = models.ForeignKey(
         to=League,
@@ -79,10 +82,13 @@ class Team(base_models.BaseModel):
         on_delete=models.CASCADE,
     )
     value = models.PositiveBigIntegerField(default=conf.settings.DEFAULT_VALUE, editable=False)
-    earning = models.PositiveBigIntegerField(default=0)
+    earning = models.PositiveBigIntegerField(default=0, editable=False)
     has_manager = models.BooleanField(default=False)
-    starting_manager_salary = models.PositiveBigIntegerField()
+    starting_manager_salary = models.PositiveBigIntegerField(conf.settings.DEFAULT_SALARY)
     existing = models.BooleanField(default=True, null=False)
+
+    def __str__(self):
+        return f'{self.name}, {self.league}'
 
 class Player(base_models.BaseEmployee):
     """Define the player model"""
