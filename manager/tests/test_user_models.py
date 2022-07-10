@@ -2,16 +2,16 @@
 
 import datetime
 
+from django import test
 from django.contrib.auth import get_user_model
-from django.test import TestCase
 from django.utils.crypto import get_random_string
 
-from manager.models import Manager
+from manager import models
 
 
 UserModel = get_user_model()
 
-class TestUserModels(TestCase):
+class TestUserModels(test.TestCase):
     """Test all user models"""
 
     def setUp(self):
@@ -77,7 +77,7 @@ class TestUserModels(TestCase):
         # pylint: disable=no-member
         self.assertRaises(
             ValueError,
-            Manager.objects.create,
+            models.Manager.objects.create,
             first_name=first_name,
             last_name=last_name,
             date_of_birth=date_of_birth,
@@ -91,7 +91,7 @@ class TestUserModels(TestCase):
         # pylint: disable=no-member
         self.assertRaises(
             ValueError,
-            Manager.objects.create,
+            models.Manager.objects.create,
             first_name=first_name,
             last_name=last_name,
             date_of_birth=date_of_birth,
@@ -105,7 +105,7 @@ class TestUserModels(TestCase):
         # pylint: disable=no-member
         self.assertRaises(
             ValueError,
-            Manager.objects.create,
+            models.Manager.objects.create,
             first_name=first_name,
             last_name=last_name,
             date_of_birth=date_of_birth,
@@ -115,7 +115,7 @@ class TestUserModels(TestCase):
         # pylint: disable=no-member
         self.assertRaises(
             ValueError,
-            Manager.objects.create,
+            models.Manager.objects.create,
             first_name=first_name,
             last_name=last_name,
             date_of_birth=date_of_birth,
@@ -127,14 +127,14 @@ class TestUserModels(TestCase):
             day=1,
         )
         # pylint: disable=no-member
-        manager = Manager.objects.create(
+        manager = models.Manager.objects.create(
             first_name=first_name,
             last_name=last_name,
             date_of_birth=date_of_birth,
             user=self.__user,
         )
         self.assertIsNotNone(manager)
-        self.assertEqual(Manager.objects.count(), 1)
+        self.assertEqual(models.Manager.objects.count(), 1)
         self.assertEqual(self.__user, manager.user)
         self.assertEqual(manager.first_name, first_name)
         self.assertEqual(manager.last_name, last_name)
