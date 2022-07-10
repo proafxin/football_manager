@@ -29,6 +29,8 @@ The database used here is `MySQL`. Create the following environment variables in
 - DATABASE_PASSWORD
 - DATABASE_PORT
 
+Go to MySQL terminal as root user. Run `show databases;` and see the list of databases. If your database is not created, run `create database {DATABASE_NAME};`. Replace {DATABASE_NAME} with the value of the environment variable. Run `show databases;` again and make sure the database is in the list. Run `CREATE USER '{DATABASE_USERNAME}'@'{DATABASE_HOST}' IDENTIFIED BY '{DATABASE_PASSWORD}';` then `GRANT ALL ON DATABASE_NAME.* TO '{DATABASE_USERNAME}'@'{DATABASE_HOST}';` and `FLUSH PRIVILEGES;`. Replace the variables with appropriate values from environment variables. If your database is hosted in your machine, `{DATABASE_HOST}` should be `localhost`.
+
 Make sure you have `virtualenv` installed (`python -m pip install virtualenv`). You may need to specify `python3` instead of `python` depending on your system. Create a virtual environment in your root project directory using `virtualenv env`. Activate the environment using `env/Scripts/activate` on Windows or `source bin/activate` on Linux/Mac. When you are done, you can deactivate the environment by using `deactivate`. Inside the environment, run `python -m pip install -r requirements.txt`.
 
 Generate a Django secret key and assign it to the environment variable `FIFA_MANAGER_DJANGO_SECRET_KEY` in your machine.
