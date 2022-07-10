@@ -44,6 +44,9 @@ If you want to run the commands individually, run the tests using the command `p
 
 Finally, run the project using `python manage.py runserver 8000`. You can specify another port if necessary.
 
+## Generating Documentation
+Change to `docs` directory. Run `sphinx-apidoc.exe -f -o . .. ..\manager\migrations\ ..\manager\tests\  ..\manage.py` then `.\make clean` and `.\make html`. Output should be built with no errors or warnings.
+
 ## Design Principles
 - Make all deals atomic transactions.
 - Put different models in different modules.
