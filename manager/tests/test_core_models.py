@@ -23,9 +23,6 @@ class TestCoreModels(test.APITestCase):
         self.__position = "DEFENDER"
         # pylint: disable=no-member
         self.__player_position = models.PlayerPosition.objects.create(position=self.__position)
-        self.__service = "FREE AGENT"
-        # pylint: disable=no-member
-        self.__contract_type = models.ContractType.objects.create(service=self.__service)
         self.__status = {
             "transfer": ["OPEN", "CLOSED"],
             "player": ["FOR SALE", "NOT FOR SALE"],
@@ -78,7 +75,6 @@ class TestCoreModels(test.APITestCase):
         self.__player = models.Player.objects.create(
             team=self.__team,
             status=self.__player_status[0],
-            contract_type=self.__contract_type,
             salary=10000,
             position=self.__player_position,
             join_date=datetime.datetime.now(),
@@ -93,17 +89,6 @@ class TestCoreModels(test.APITestCase):
         self.assertEqual(models.PlayerPosition.objects.count(), 1)
         self.assertEqual(self.__player_position.position, self.__position)
         self.assertEqual(str(self.__player_position), self.__position)
-
-    def test_contract_type(self):
-        """Test models.ContractType"""
-        # pylint: disable=no-member, protected-access
-        self.assertEqual(models.ContractType._meta.get_field("service").max_length, MAX_LENGTH)
-        self.assertIsNotNone(self.__contract_type)
-        # pylint: disable=no-member
-        self.assertEqual(models.ContractType.objects.count(), 1)
-        self.assertEqual(self.__contract_type, models.ContractType.objects.first())
-        self.assertEqual(str(self.__contract_type), self.__service)
-        self.assertEqual(self.__contract_type.service, self.__service)
 
     def test_transfer_status(self):
         """Test models.TransferStatus"""
@@ -170,12 +155,14 @@ class TestCoreModels(test.APITestCase):
         """Test models.Player"""
         player = self.__player
         self.assertIsNotNone(player)
+        self.assertEqual(str(player), f"{player.first_name} {player.last_name}")
+        self.assertIsInstance(player.join_date, datetime.date)
+        self.assertIsInstance(player.date_of_birth, datetime.date)
         # pylint: disable=no-member, protected-access
         self.assertEqual(models.Player._meta.get_field("first_name").max_length, MAX_LENGTH)
         self.assertEqual(models.Player.objects.count(), 1)
         self.assertEqual(player.team, self.__team)
         self.assertEqual(player.status, self.__player_status[0])
-        self.assertEqual(player.contract_type, self.__contract_type)
         self.assertEqual(player.position, self.__player_position)
         self.assertEqual(player.price, 0)
         self.assertEqual(player.earning, 0)

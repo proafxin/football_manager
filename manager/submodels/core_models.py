@@ -11,7 +11,7 @@ DEFAULT_ATTRIBUTE_VALUE = conf.settings.DEFAULT_ATTRIBUTE_VALUE
 
 
 class PlayerPosition(base_models.BaseModel):
-    """Define different player positions."""
+    """Model for different player positions."""
 
     position = models.CharField(max_length=conf.settings.MAX_LENGTH, unique=True)
 
@@ -19,21 +19,28 @@ class PlayerPosition(base_models.BaseModel):
         return str(self.position)
 
 
-class ContractType(base_models.BaseModel):
-    """Define different contract types of a player."""
+class ContractStatus(base_models.BaseStatus):
+    """
+    Model for different contract types of a player.
 
-    service = models.CharField(max_length=conf.settings.MAX_LENGTH, unique=True)
-
-    def __str__(self):
-        return str(self.service)
+    Must be one of these: ['BUY', 'LOAN']
+    """
 
 
 class TransferStatus(base_models.BaseStatus):
-    """Open or closed"""
+    """
+    Model to check if a transfer is open or closed.
+
+    Must be one of these: ['OPEN', 'CLOSED']
+    """
 
 
 class PlayerStatus(base_models.BaseStatus):
-    """Player for sale or not"""
+    """
+    Model to check if a player is for sale or not
+
+    Must be one of these: ['FOR SALE', 'NOT FOR SALE', 'FREE AGENT']
+    """
 
 
 class OfferStatus(base_models.BaseStatus):
@@ -124,11 +131,11 @@ class Player(base_models.BaseEmployee):
         editable=False,
         on_delete=models.SET_NULL,
     )
-    contract_type = models.ForeignKey(
-        to=ContractType,
-        null=False,
-        on_delete=models.CASCADE,
-    )
+    # contract_type = models.ForeignKey(
+    #     to=ContractType,
+    #     null=False,
+    #     on_delete=models.CASCADE,
+    # )
     earning = models.PositiveBigIntegerField(default=0)
     pace = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
     acceleration = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
@@ -154,7 +161,7 @@ class Player(base_models.BaseEmployee):
     marking = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
     form = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
     morale = models.PositiveBigIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
-    join_date = models.DateField()
+    join_date = models.DateField(null=False)
 
 
 class BaseOffer(base_models.BaseModel):
@@ -197,6 +204,12 @@ class Transfer(BaseOffer):
         to=TransferStatus,
         null=False,
         on_delete=models.CASCADE,
+    )
+    contract = models.ForeignKey(
+        to=ContractStatus,
+        null=False,
+        on_delete=models.CASCADE,
+        default=1,
     )
 
 

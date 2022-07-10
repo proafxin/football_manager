@@ -3,7 +3,6 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from manager.models import (
     AttributeCategory,
-    ContractType,
     Country,
     OfferStatus,
     OfferType,
@@ -61,7 +60,6 @@ class UserAdmin(BaseUserAdmin):
 
 admin.site.register(User, UserAdmin)
 admin.site.register(AttributeCategory)
-admin.site.register(ContractType)
 admin.site.register(Country)
 admin.site.register(OfferStatus)
 admin.site.register(OfferType)
