@@ -11,7 +11,11 @@ DEFAULT_ATTRIBUTE_VALUE = conf.settings.DEFAULT_ATTRIBUTE_VALUE
 
 
 class PlayerPosition(base_models.BaseModel):
-    """Model for different player positions."""
+    """
+    Model for different player positions.
+
+    Must be one of these: ['GOALKEEPER', 'DEFENDER', 'MIDFIELDER', 'ATTACKER']
+    """
 
     position = models.CharField(max_length=conf.settings.MAX_LENGTH, unique=True)
 
@@ -44,11 +48,19 @@ class PlayerStatus(base_models.BaseStatus):
 
 
 class OfferStatus(base_models.BaseStatus):
-    """Countered or Stalled or Accepted or Rejected"""
+    """
+    Model to track the current status of an offer.
+
+    Must be one of these: ['ACCEPTED', 'REJECTED', 'STALLED', 'COUNTERED']
+    """
 
 
 class OfferType(base_models.BaseModel):
-    """Buy/Loan"""
+    """
+    Model to track the type of offer made.
+
+    Must be one of these: ['Buy','Loan']
+    """
 
     type = models.CharField(
         max_length=conf.settings.MAX_LENGTH,
@@ -62,7 +74,7 @@ class OfferType(base_models.BaseModel):
 
 
 class League(base_models.BaseModel):
-    """Define the League model"""
+    """League model"""
 
     name = models.CharField(max_length=conf.settings.MAX_LENGTH, null=True, default="")
     country = models.ForeignKey(
@@ -77,7 +89,7 @@ class League(base_models.BaseModel):
 
 
 class Team(base_models.BaseModel):
-    """Define the Team model"""
+    """Team model"""
 
     name = models.CharField(max_length=conf.settings.MAX_LENGTH, null=True, default="")
     owner = models.ForeignKey(
@@ -110,7 +122,9 @@ class Team(base_models.BaseModel):
 
 
 class Player(base_models.BaseEmployee):
-    """Define the player model"""
+    """
+    Player model
+    """
 
     team = models.ForeignKey(
         to=Team,
@@ -131,11 +145,6 @@ class Player(base_models.BaseEmployee):
         editable=False,
         on_delete=models.SET_NULL,
     )
-    # contract_type = models.ForeignKey(
-    #     to=ContractType,
-    #     null=False,
-    #     on_delete=models.CASCADE,
-    # )
     earning = models.PositiveBigIntegerField(default=0)
     pace = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
     acceleration = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
@@ -165,7 +174,7 @@ class Player(base_models.BaseEmployee):
 
 
 class BaseOffer(base_models.BaseModel):
-    """Define the base offer model"""
+    """Base offer model for different offer types to inherit."""
 
     asking_price = models.PositiveBigIntegerField()
     offered_price = models.PositiveBigIntegerField()
@@ -184,7 +193,7 @@ class BaseOffer(base_models.BaseModel):
 
 
 class Transfer(BaseOffer):
-    """Define the Transfer model"""
+    """Transfer model"""
 
     buyer = models.ForeignKey(
         to=Team,
@@ -209,7 +218,6 @@ class Transfer(BaseOffer):
         to=ContractStatus,
         null=False,
         on_delete=models.CASCADE,
-        default=1,
     )
 
 
@@ -243,7 +251,7 @@ class CounterOffer(BaseOffer):
 
 
 class BaseNegotiation(base_models.BaseModel):
-    """Define base model for negotiation of an entity with a team"""
+    """Abstract base model for negotiation of an entity with a team"""
 
     asking_salary = models.PositiveBigIntegerField()
     offer_salary = models.PositiveBigIntegerField()
