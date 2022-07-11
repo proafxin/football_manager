@@ -194,3 +194,24 @@ class TestCoreModels(test.APITestCase):
         ]
         for attribute in attributes:
             self.assertEqual(getattr(player, attribute), DEFAULT_ATTRIBUTE_VALUE)
+
+    def test_attribute_category(self):
+        """
+        Test attribute cateogry
+        """
+        self.assertEqual(
+            models.AttributeCategory._meta.get_field("attribute").max_length, MAX_LENGTH
+        )
+        self.assertEqual(
+            models.AttributeCategory._meta.get_field("category").max_length, MAX_LENGTH
+        )
+        attribute: str = "pace"
+        category: str = "physique"
+        attribute_category = models.AttributeCategory.objects.create(
+            attribute=attribute,
+            category=category,
+        )
+        self.assertIsNotNone(attribute_category)
+        self.assertEqual(attribute_category.attribute, attribute)
+        self.assertEqual(attribute_category.category, category)
+        self.assertEqual(str(attribute_category), f"{attribute} {category}")
