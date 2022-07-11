@@ -295,7 +295,7 @@ class AttributeCategory(base_models.BaseModel):
     """Model to map each attribute to a category"""
 
     attribute = models.CharField(max_length=conf.settings.MAX_LENGTH, unique=True, null=False)
-    category = models.CharField(max_length=conf.settings.MAX_LENGTH, null=False, unique=True)
+    category = models.CharField(max_length=conf.settings.MAX_LENGTH, null=False)
 
     def __str__(self):
         return f"{self.attribute} {self.category}"
