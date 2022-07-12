@@ -10,10 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
-from os import (
-    environ,
-    path,
-)
+from os import environ, path
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,15 +22,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = environ['FIFA_MANAGER_DJANGO_SECRET_KEY']
+SECRET_KEY = environ["FIFA_MANAGER_DJANGO_SECRET_KEY"]
 
 TRANSFER_WINDOW_DAYS = 30
 PLAYER_SELL_EMBARGO_DAYS = 180
 MAX_LENGTH = 100
 DEFAULT_PLAYER_VALUE = 1000000
-DEFAULT_BUDGET = 5*DEFAULT_PLAYER_VALUE
+DEFAULT_BUDGET = 5 * DEFAULT_PLAYER_VALUE
 DEFAULT_INITIAL_PLAYER_NUMBER = 20
-DEFAULT_VALUE = DEFAULT_PLAYER_VALUE*DEFAULT_INITIAL_PLAYER_NUMBER
+DEFAULT_VALUE = DEFAULT_PLAYER_VALUE * DEFAULT_INITIAL_PLAYER_NUMBER
 DEFAULT_ATTRIBUTE_VALUE = 60
 DEFAULT_SALARY = 10000
 
@@ -46,20 +43,20 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'debug_toolbar',
-    'coreapi',
-    'drf_yasg',
+    "django.contrib.admin",
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.contrib.staticfiles",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "debug_toolbar",
+    "coreapi",
+    "drf_yasg",
     # 'django_nose',
-    'silk',
-    'manager',
+    "silk",
+    "manager",
 ]
 
 # TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
@@ -68,90 +65,114 @@ INSTALLED_APPS = [
 #     '--cover-package=manager',
 # ]
 
-AUTH_USER_MODEL = 'manager.User'
+AUTH_USER_MODEL = "manager.User"
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'silk.middleware.SilkyMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "silk.middleware.SilkyMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication',
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework.authentication.BasicAuthentication",
     ),
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
 }
 
-LOGIN_REDIRECT_URL = 'team-list'
-LOGIN_URL = 'api-auth/login/'
-LOGOUT_URL = 'api-auth/logout/'
-LOGOUT_REDIRECT_URL = 'api-auth/login/'
+LOGIN_REDIRECT_URL = "manager-list"
+LOGIN_URL = "api-auth/login/"
+LOGOUT_URL = "api-auth/logout/"
+LOGOUT_REDIRECT_URL = "api-auth/login/"
+
+ATTRIBUTES = [
+    "strength",
+    "acceleration",
+    "stand_tackle",
+    "pace",
+    "slide_tackle",
+    "power",
+    "finishing",
+    "balance",
+    "reaction",
+    "curve",
+    "freekick",
+    "positioning",
+    "vision",
+    "marking",
+    "shortpass",
+    "longpass",
+    "longshot",
+    "dribbling",
+    "ballcontrol",
+    "heading",
+    "jumping",
+    "marking",
+    "form",
+    "morale",
+]
+
+CATEGORIES = ["physique", "playmaking", "shooting", "defending", "setpiece", "skill"]
 
 SWAGGER_SETTINGS = {
-    'SECURITY_DEFINITIONS': {
-        'basic': {
-            'type': 'basic'
-        }
-    },
-    'LOGIN_URL': LOGIN_URL,
-    'LOGIN_REDIRECT_URL': LOGIN_REDIRECT_URL,
-    'LOGOUT_URL': LOGOUT_URL,
+    "SECURITY_DEFINITIONS": {"basic": {"type": "basic"}},
+    "LOGIN_URL": LOGIN_URL,
+    "LOGIN_REDIRECT_URL": LOGIN_REDIRECT_URL,
+    "LOGOUT_URL": LOGOUT_URL,
 }
 
 
-
-ROOT_URLCONF = 'fifa_manager.urls'
+ROOT_URLCONF = "fifa_manager.urls"
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.debug',
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.debug",
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'fifa_manager.wsgi.application'
+WSGI_APPLICATION = "fifa_manager.wsgi.application"
 
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-DATABASE_NAME = environ['FIFA_MANAGER_MYSQL_DATABASE_NAME']
-DATABASE_USERNAME = environ['MYSQL_USERNAME']
-DATABASE_HOST = environ['MYSQL_HOST']
-DATABASE_PASSWORD = environ['MYSQL_PASSWORD']
-DATABASE_PORT = environ['MYSQL_PORT']
+DATABASE_NAME = environ["FIFA_MANAGER_MYSQL_DATABASE_NAME"]
+DATABASE_USERNAME = environ["MYSQL_USERNAME"]
+DATABASE_HOST = environ["MYSQL_HOST"]
+DATABASE_PASSWORD = environ["MYSQL_PASSWORD"]
+DATABASE_PORT = environ["MYSQL_PORT"]
 
 DATABASES = {
-    'default': {
+    "default": {
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.mysql',
-        'OPTIONS': {
-            'database': DATABASE_NAME,
-            'host': DATABASE_HOST,
-            'user': DATABASE_USERNAME,
-            'password': DATABASE_PASSWORD,
-            'port': int(DATABASE_PORT),
+        "ENGINE": "django.db.backends.mysql",
+        "OPTIONS": {
+            "database": DATABASE_NAME,
+            "host": DATABASE_HOST,
+            "user": DATABASE_USERNAME,
+            "password": DATABASE_PASSWORD,
+            "port": int(DATABASE_PORT),
         },
-        'TEST': {
-            'NAME': 'auto_tests',
+        "TEST": {
+            "NAME": "auto_tests",
         },
     },
 }
@@ -161,16 +182,16 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",
     },
     {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
 
@@ -178,9 +199,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
@@ -190,10 +211,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_ROOT = path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = 'static/'
+STATIC_ROOT = path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "static/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
