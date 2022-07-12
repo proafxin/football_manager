@@ -37,7 +37,6 @@ class BasePerson(BaseModel):
 
     first_name = models.CharField(max_length=MAX_LENGTH, null=True)
     last_name = models.CharField(max_length=MAX_LENGTH, null=True)
-    date_of_birth = models.DateField(editable=False, null=False)
     country = models.ForeignKey(
         to=Country,
         null=True,

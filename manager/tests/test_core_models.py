@@ -13,6 +13,7 @@ MAX_LENGTH = conf.settings.MAX_LENGTH
 DEFAULT_VALUE = conf.settings.DEFAULT_VALUE
 DEFAULT_ATTRIBUTE_VALUE = conf.settings.DEFAULT_ATTRIBUTE_VALUE
 UserModel = get_user_model()
+ATTRIBUTES = conf.settings.ATTRIBUTES
 
 
 class TestCoreModels(test.APITestCase):
@@ -59,11 +60,7 @@ class TestCoreModels(test.APITestCase):
             password=crypto.get_random_string(length=12),
         )
         self.__team_name = "Team Name"
-        today = datetime.datetime.now()
-        self.__manager = models.Manager.objects.create(
-            user=self.__user,
-            date_of_birth=datetime.date(year=today.year - 40, month=1, day=1),
-        )
+        self.__manager = models.Manager.objects.create(user=self.__user)
         self.__team = models.Team.objects.create(
             name=self.__team_name,
             league=self.__leagues[0],
@@ -78,7 +75,6 @@ class TestCoreModels(test.APITestCase):
             salary=10000,
             position=self.__player_position,
             join_date=datetime.datetime.now(),
-            date_of_birth=datetime.date(year=today.year - 20, month=1, day=1),
             price=0,
         )
 
@@ -157,7 +153,6 @@ class TestCoreModels(test.APITestCase):
         self.assertIsNotNone(player)
         self.assertEqual(str(player), f"{player.first_name} {player.last_name}")
         self.assertIsInstance(player.join_date, datetime.date)
-        self.assertIsInstance(player.date_of_birth, datetime.date)
         # pylint: disable=no-member, protected-access
         self.assertEqual(models.Player._meta.get_field("first_name").max_length, MAX_LENGTH)
         self.assertEqual(models.Player.objects.count(), 1)
@@ -166,33 +161,8 @@ class TestCoreModels(test.APITestCase):
         self.assertEqual(player.position, self.__player_position)
         self.assertEqual(player.price, 0)
         self.assertEqual(player.earning, 0)
-        attributes = [
-            "strength",
-            "acceleration",
-            "stand_tackle",
-            "pace",
-            "slide_tackle",
-            "power",
-            "finishing",
-            "balance",
-            "reaction",
-            "curve",
-            "freekick",
-            "positioning",
-            "vision",
-            "marking",
-            "shortpass",
-            "longpass",
-            "longshot",
-            "dribbling",
-            "ballcontrol",
-            "heading",
-            "jumping",
-            "marking",
-            "form",
-            "morale",
-        ]
-        for attribute in attributes:
+
+        for attribute in ATTRIBUTES:
             self.assertEqual(getattr(player, attribute), DEFAULT_ATTRIBUTE_VALUE)
 
     def test_attribute_category(self):
