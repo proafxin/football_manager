@@ -12,4 +12,5 @@ urlpatterns = [
         name="attribute-categories",
     ),
     path("register/", views.UserRegisterView.as_view(), name="register"),
+    path("managers/", views.ManagerListView.as_view(), name="manager-list"),
 ]

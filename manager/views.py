@@ -26,14 +26,13 @@ class UserRegisterView(generics.CreateAPIView):
     serializer_class = serializers.UserSerializer
 
 
-# class UserDetailView(generics.RetrieveAPIView):
-#     """
-#     User information.
-#     """
+class ManagerListView(generics.ListAPIView):
+    """View managers of current user"""
 
-#     queryset = UserModel.objects.all()
-#     permission_classes = [permissions.AllowAny]
-#     serializer_class = UserDetailSerializer
+    queryset = models.Manager.objects.all()
+    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = AUTHENTICATIONS
+    serializer_class = serializers.ManagerSerializer
 
 
 class AttributeCategoryListView(generics.ListCreateAPIView):
@@ -45,3 +44,13 @@ class AttributeCategoryListView(generics.ListCreateAPIView):
     )
     authentication_classes = AUTHENTICATIONS
     permission_classes = [permissions.IsAdminUser]
+
+
+# class UserDetailView(generics.RetrieveAPIView):
+#     """
+#     User information.
+#     """
+
+#     queryset = UserModel.objects.all()
+#     permission_classes = [permissions.AllowAny]
+#     serializer_class = UserDetailSerializer

@@ -1,6 +1,5 @@
 """Define user related models"""
 
-from datetime import datetime
 
 from django import conf
 from django.contrib.auth import models as auth_models
@@ -90,15 +89,3 @@ class Manager(base_models.BasePerson):
         to=UserModel,
         on_delete=models.CASCADE,
     )
-
-    def save(self, *args, **kwargs):
-        today = datetime.now()
-        # pylint: disable=no-member
-        num_years = today.year - self.date_of_birth.year
-        if (today.month == self.date_of_birth.month) and (today.day < self.date_of_birth.day):
-            num_years -= 1
-        elif today.month < self.date_of_birth.month:
-            num_years -= 1
-        if (num_years < 18) or (num_years > 200):
-            raise ValueError("User cannot be younger than 18 or a vampire")
-        super().save(*args, **kwargs)
