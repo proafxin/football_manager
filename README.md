@@ -1,5 +1,5 @@
 ![Tests](https://github.com/proafxin/football_manager/actions/workflows/test.yml/badge.svg)
-![codecov](https://img.shields.io/codecov/c/github/proafxin/football_manager)
+![codecov](https://github.com/proafxin/football_manager/blob/develop/coverage.svg)
 
 # Virtual Football Manager
 A virtual backend simulation of football manager mode.
