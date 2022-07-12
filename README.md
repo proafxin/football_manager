@@ -1,4 +1,4 @@
-![build](https://github.com/proafxin/football_manager/actions/workflows/test.yml/badge.svg)
+![Build](https://github.com/proafxin/football_manager/actions/workflows/test.yml/badge.svg)
 ![codecov](https://github.com/proafxin/football_manager/blob/develop/coverage.svg)
 
 # Virtual Football Manager
