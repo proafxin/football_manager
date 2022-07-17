@@ -2,6 +2,7 @@
 
 from django import conf
 from django.contrib.auth import get_user_model
+from django.core import exceptions
 from django.db import models
 
 from manager.submodels import base_models, user_models
@@ -291,11 +292,32 @@ class ManagerNegotiation(BaseNegotiation):
     )
 
 
+def validate_attribute(attribute):
+    """Check if attribute is in the predefined ATTRIBUTES list in settings"""
+
+    if attribute not in conf.settings.ATTRIBUTES:
+        raise exceptions.ValidationError(f"{attribute} not in ATTRIBUTES")
+
+
+def validate_categories(category):
+    """Check if category is in the predefined CATEGORIES list in settings"""
+
+    if category not in conf.settings.CATEGORIES:
+        raise exceptions.ValidationError(f"{category} not in CATEGORIES")
+
+
 class AttributeCategory(base_models.BaseModel):
     """Model to map each attribute to a category"""
 
-    attribute = models.CharField(max_length=conf.settings.MAX_LENGTH, unique=True, null=False)
-    category = models.CharField(max_length=conf.settings.MAX_LENGTH, null=False)
+    attribute = models.CharField(
+        max_length=conf.settings.MAX_LENGTH,
+        unique=True,
+        null=False,
+        validators=[validate_attribute],
+    )
+    category = models.CharField(
+        max_length=conf.settings.MAX_LENGTH, null=False, validators=[validate_categories]
+    )
 
     def __str__(self):
         return f"{self.attribute} {self.category}"

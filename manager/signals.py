@@ -1,7 +1,7 @@
 """Signals to trigger on events"""
 
 from django.contrib.auth import get_user_model
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
 from manager import models
@@ -19,3 +19,10 @@ def create_manager(sender, instance, created, **kwargs):
         first_name=instance.first_name,
         last_name=instance.last_name,
     )
+
+
+# pylint: disable=unused-argument
+@receiver(pre_save, sender=models.AttributeCategory)
+def check_attribute_category(sender, instance, *args, **kwargs):
+    """Validate AttributeCategory data before creating new entry"""
+    instance.full_clean()

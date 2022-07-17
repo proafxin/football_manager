@@ -4,6 +4,7 @@ import datetime
 
 from django import conf
 from django.contrib.auth import get_user_model
+from django.core import exceptions
 from django.utils import crypto
 from rest_framework import test
 
@@ -175,6 +176,22 @@ class TestCoreModels(test.APITestCase):
         self.assertEqual(
             models.AttributeCategory._meta.get_field("category").max_length, MAX_LENGTH
         )
+        attribute: str = "akjbfgkjlsd"
+        category: str = "jksdvbgjkh"
+        attribute_category = models.AttributeCategory(
+            attribute=attribute,
+            category=category,
+        )
+        with self.assertRaises(exceptions.ValidationError):
+            attribute_category.full_clean()
+        attribute: str = "pace"
+        category: str = "jksdvbgjkh"
+        attribute_category = models.AttributeCategory(
+            attribute=attribute,
+            category=category,
+        )
+        with self.assertRaises(exceptions.ValidationError):
+            attribute_category.save()
         attribute: str = "pace"
         category: str = "physique"
         attribute_category = models.AttributeCategory.objects.create(
