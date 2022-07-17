@@ -2,9 +2,9 @@
 
 from django import conf
 from django.contrib.auth import get_user_model
-from rest_framework import serializers, status
+from rest_framework import serializers
 
-from manager import models, services
+from manager import models
 
 UserModel = get_user_model()
 ATTRIBUTES: list[str] = conf.settings.ATTRIBUTES
@@ -48,23 +48,6 @@ class ManagerSerializer(serializers.ModelSerializer):
 
 class AttributeCategorySerializer(serializers.ModelSerializer):
     """Serialize AttributeCategory fields"""
-
-    def validate(self, attrs):
-        """Check attribute and category are from the predefined list"""
-        attribute = attrs.get("attribute")
-        category = attrs.get("category")
-        if attribute not in ATTRIBUTES:
-            error = services.get_error(
-                message=f"{attribute} not in ATTRIBUTES", status_code=status.HTTP_400_BAD_REQUEST
-            )
-            raise serializers.ValidationError(detail=error, code=status.HTTP_400_BAD_REQUEST)
-        if category not in CATEGORIES:
-            error = services.get_error(
-                message=f"{category} not in CATEGORIES", status_code=status.HTTP_400_BAD_REQUEST
-            )
-            raise serializers.ValidationError(detail=error, code=status.HTTP_400_BAD_REQUEST)
-
-        return super().validate(attrs)
 
     class Meta:
         """Specify fields to serialize"""

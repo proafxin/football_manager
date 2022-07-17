@@ -29,10 +29,12 @@ class UserRegisterView(generics.CreateAPIView):
 class ManagerListView(generics.ListAPIView):
     """View managers of current user"""
 
-    queryset = models.Manager.objects.all()
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = AUTHENTICATIONS
     serializer_class = serializers.ManagerSerializer
+
+    def get_queryset(self):
+        return models.Manager.objects.filter(user=self.request.user)
 
 
 class AttributeCategoryListView(generics.ListCreateAPIView):
