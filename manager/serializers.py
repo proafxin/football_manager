@@ -54,3 +54,13 @@ class AttributeCategorySerializer(serializers.ModelSerializer):
 
         model = models.AttributeCategory
         fields = "__all__"
+
+
+class CountrySerializer(serializers.ModelSerializer):
+    """Serialize Country fields"""
+
+    class Meta:
+        """Specify fields to serialize"""
+
+        model = models.Country
+        fields = "__all__"
