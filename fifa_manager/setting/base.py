@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = environ["FIFA_MANAGER_DJANGO_SECRET_KEY"]
+SECRET_KEY = environ["FOOTBALL_MANAGER_DJANGO_SECRET_KEY"]
 
 TRANSFER_WINDOW_DAYS = 30
 PLAYER_SELL_EMBARGO_DAYS = 180
@@ -153,7 +153,7 @@ WSGI_APPLICATION = "fifa_manager.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-DATABASE_NAME = environ["FIFA_MANAGER_MYSQL_DATABASE_NAME"]
+DATABASE_NAME = environ["FOOTBALL_MANAGER_MYSQL_DATABASE_NAME"]
 DATABASE_USERNAME = environ["MYSQL_USERNAME"]
 DATABASE_HOST = environ["MYSQL_HOST"]
 DATABASE_PASSWORD = environ["MYSQL_PASSWORD"]
