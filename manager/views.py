@@ -48,11 +48,10 @@ class AttributeCategoryListView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAdminUser]
 
 
-# class UserDetailView(generics.RetrieveAPIView):
-#     """
-#     User information.
-#     """
+class CountryListView(generics.ListCreateAPIView):
+    """Get, Post, Put, Delete API for Country"""
 
-#     queryset = UserModel.objects.all()
-#     permission_classes = [permissions.AllowAny]
-#     serializer_class = UserDetailSerializer
+    queryset = models.Country.objects.all()
+    serializer_class = serializers.CountrySerializer
+    authentication_classes = AUTHENTICATIONS
+    permission_classes = [permissions.IsAdminUser]
