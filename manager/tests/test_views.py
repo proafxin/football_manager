@@ -20,6 +20,8 @@ class TestViews(test.APITestCase):
             password=password,
             is_staff=True,
             is_superuser=True,
+            first_name="First",
+            last_name="Last",
         )
         self.client.login(email=self.__admin.email, password=password)
         self.assertEqual(UserModel.objects.count(), 1)
@@ -82,6 +84,8 @@ class TestViews(test.APITestCase):
             self.assertIn("category", attribute_category)
             self.assertIsInstance(attribute_category["attribute"], str)
             self.assertIsInstance(attribute_category["category"], str)
+            self.assertLessEqual(len(attribute_category["attribute"]), settings.MAX_LENGTH)
+            self.assertLessEqual(len(attribute_category["category"]), settings.MAX_LENGTH)
 
     def _test_country(self):
         """Test  /countries/"""
@@ -104,13 +108,14 @@ class TestViews(test.APITestCase):
         for country in data:
             self.assertIsInstance(country, dict)
             self.assertIn("name", country)
+            self.assertLessEqual(len(country["name"]), settings.MAX_LENGTH)
 
         return data[0]
 
-    def test_league(self):
+    def _test_league(self):
         """Test /leagues/"""
 
-        url = reverse("leagues")
+        url = reverse("league-list")
         country = self._test_country()
 
         params = {
@@ -120,3 +125,57 @@ class TestViews(test.APITestCase):
         }
         response = self.client.post(url, data=params)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        league = response.json()
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        data = response.json()
+        self.assertIsInstance(data, list)
+        fields = list(params.keys())
+        fields.extend(["created_at", "updated_at"])
+        for _league in data:
+            for field in fields:
+                self.assertIn(field, _league)
+            self.assertLessEqual(len(_league["name"]), settings.MAX_LENGTH)
+
+        return league
+
+    def test_team(self):
+        """Test /teams/"""
+
+        url = reverse("team-list")
+        manager = self.__admin.id
+        league = self._test_league()
+        params = {
+            "name": "Team 1",
+            "league": league["id"],
+            "manager": manager,
+            "existing": False,
+        }
+        response = self.client.post(url, data=params)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        team = response.json()
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        teams = response.json()
+        fields = list(params.keys())
+        fields.extend(
+            [
+                "created_at",
+                "updated_at",
+                "value",
+                "earning",
+                "has_manager",
+                "starting_manager_salary",
+                "existing",
+                "budget",
+                "num_players",
+            ]
+        )
+        for _team in teams:
+            for field in fields:
+                self.assertIn(field, _team)
+            self.assertLessEqual(len(_team["name"]), settings.MAX_LENGTH)
+            self.assertEqual(_team["owner"], self.__admin.id)
+            self.assertEqual(_team["manager"], manager)
+
+        return team

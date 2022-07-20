@@ -47,6 +47,7 @@ class BasePerson(BaseModel):
         """
         Return the human readable name for BasePerson.
         """
+
         return f"{self.first_name} {self.last_name}"
 
     # pylint: disable=too-few-public-methods
