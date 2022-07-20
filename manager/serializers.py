@@ -64,3 +64,13 @@ class CountrySerializer(serializers.ModelSerializer):
 
         model = models.Country
         fields = "__all__"
+
+
+class LeagueSerializer(serializers.ModelSerializer):
+    """Serialize League fields"""
+
+    class Meta:
+        """Specify fields to serialize"""
+
+        model = models.League
+        fields = "__all__"
