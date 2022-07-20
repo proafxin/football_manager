@@ -20,7 +20,7 @@ def generate_choices(choices):
 class League(base_models.BaseModel):
     """League model"""
 
-    name = models.CharField(max_length=settings.MAX_LENGTH, null=True, default="")
+    name = models.CharField(max_length=MAX_LENGTH, null=True, default="")
     country = models.ForeignKey(
         to=base_models.Country,
         null=False,
@@ -35,7 +35,7 @@ class League(base_models.BaseModel):
 class Team(base_models.BaseModel):
     """Team model"""
 
-    name = models.CharField(max_length=settings.MAX_LENGTH, null=True, default="")
+    name = models.CharField(max_length=MAX_LENGTH, null=True, default="")
     owner = models.ForeignKey(
         to=UserModel,
         on_delete=models.CASCADE,
