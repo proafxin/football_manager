@@ -1,5 +1,5 @@
 .. Virtual Football Manager documentation master file, created by
-   sphinx-quickstart on Mon Jul 11 03:29:24 2022.
+   sphinx-quickstart on Wed Jul 20 08:28:40 2022.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
@@ -9,10 +9,8 @@ Welcome to Virtual Football Manager's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-   
+
    modules
-
-
 
 Indices and tables
 ==================

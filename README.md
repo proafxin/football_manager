@@ -48,6 +48,14 @@ Finally, run the project using `python manage.py runserver 8000`. You can specif
 ## Generating Documentation
 Change to `docs` directory. Run `sphinx-apidoc.exe -f -o . .. ..\manager\migrations\ ..\manager\tests\  ..\manage.py` then `.\make clean` and `.\make html`. Output should be built with no errors or warnings.
 
+Run `sphinx-quickstart`. In `conf.py`, uncomment the lines 
+    ```
+    import os
+    import sys
+    sys.path.insert(0, os.path.abspath("."))
+    ```
+and save it. Add `"sphinx.ext.autodoc",` to the `extensions` list. Run `python -m pip install -U sphinx_rtd_theme` and set `html_theme = "sphinx_rtd_theme"`.
+
 ## Design Principles
 - Make all deals atomic transactions.
 - Put different models in different modules.
