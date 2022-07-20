@@ -66,18 +66,3 @@ class BaseEmployee(BasePerson):
         """Make BaseEmployee abstract"""
 
         abstract = True
-
-
-class BaseStatus(BaseModel):
-    """Define abstract status model"""
-
-    status = models.CharField(max_length=MAX_LENGTH, unique=True)
-
-    def __str__(self):
-        return str(self.status)
-
-    # pylint: disable=too-few-public-methods
-    class Meta:
-        """Make BaseStatus abstract"""
-
-        abstract = True

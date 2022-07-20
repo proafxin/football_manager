@@ -8,15 +8,10 @@ from manager.submodels.core_models import (
     CounterOffer,
     League,
     ManagerNegotiation,
-    OfferStatus,
-    OfferType,
     Player,
     PlayerNegotiation,
-    PlayerPosition,
-    PlayerStatus,
     Team,
     Transfer,
-    TransferStatus,
 )
 
 # pylint: disable=unused-import
