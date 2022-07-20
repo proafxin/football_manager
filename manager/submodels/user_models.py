@@ -88,4 +88,5 @@ class Manager(base_models.BasePerson):
     user = models.ForeignKey(
         to=UserModel,
         on_delete=models.CASCADE,
+        editable=False,
     )
