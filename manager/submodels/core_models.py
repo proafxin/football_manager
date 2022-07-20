@@ -74,20 +74,17 @@ class Player(base_models.BaseEmployee):
         to=Team,
         null=True,
         on_delete=models.SET_NULL,
-        editable=False,
         related_name="players",
     )
     price = models.PositiveBigIntegerField(default=settings.DEFAULT_VALUE)
     status = models.CharField(
         max_length=MAX_LENGTH,
         null=False,
-        editable=False,
         choices=generate_choices(settings.STATUS["player"]),
     )
     position = models.CharField(
         max_length=MAX_LENGTH,
         null=False,
-        editable=False,
         choices=generate_choices(settings.PLAYER_POSITIONS),
     )
     earning = models.PositiveBigIntegerField(default=0)
@@ -126,7 +123,6 @@ class BaseOffer(base_models.BaseModel):
     player = models.ForeignKey(
         to=Player,
         null=False,
-        editable=False,
         on_delete=models.CASCADE,
     )
     # pylint: disable=too-few-public-methods
@@ -143,27 +139,23 @@ class Transfer(BaseOffer):
     buyer = models.ForeignKey(
         to=Team,
         null=False,
-        editable=False,
         on_delete=models.CASCADE,
         related_name="buyer_transfers",
     )
     seller = models.ForeignKey(
         to=Team,
         null=False,
-        editable=False,
         on_delete=models.CASCADE,
         related_name="seller_transfers",
     )
     status = models.CharField(
         max_length=MAX_LENGTH,
         null=False,
-        editable=False,
         choices=generate_choices(settings.STATUS["transfer"]),
     )
     contract = models.CharField(
         max_length=MAX_LENGTH,
         null=False,
-        editable=False,
         choices=generate_choices(settings.CONTRACT_TYPES),
     )
 
@@ -174,27 +166,23 @@ class CounterOffer(BaseOffer):
     buyer = models.ForeignKey(
         to=Team,
         null=False,
-        editable=False,
         on_delete=models.CASCADE,
         related_name="buyer_offers",
     )
     seller = models.ForeignKey(
         to=Team,
         null=False,
-        editable=False,
         on_delete=models.CASCADE,
         related_name="seller_offers",
     )
     status = models.CharField(
         max_length=MAX_LENGTH,
         null=False,
-        editable=False,
         choices=generate_choices(settings.STATUS["offer"]),
     )
     type = models.CharField(
         max_length=MAX_LENGTH,
         null=False,
-        editable=False,
         choices=generate_choices(settings.CONTRACT_TYPES),
     )
 
@@ -235,7 +223,6 @@ class ManagerNegotiation(BaseNegotiation):
     manager = models.ForeignKey(
         to=user_models.Manager,
         null=False,
-        editable=False,
         on_delete=models.CASCADE,
     )
 
@@ -246,16 +233,14 @@ class AttributeCategory(base_models.BaseModel):
     attribute = models.CharField(
         max_length=MAX_LENGTH,
         null=False,
-        editable=False,
         choices=generate_choices(settings.ATTRIBUTES),
         unique=True,
     )
     category = models.CharField(
         max_length=MAX_LENGTH,
         null=False,
-        editable=False,
         choices=generate_choices(settings.CATEGORIES),
     )
 
     def __str__(self):
-        return f"{self.attribute} {self.category}"
+        return f"{self.attribute}: {self.category}"
