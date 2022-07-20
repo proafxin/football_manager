@@ -52,6 +52,22 @@ manager.services module
    :undoc-members:
    :show-inheritance:
 
+manager.signals module
+----------------------
+
+.. automodule:: manager.signals
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+manager.urls module
+-------------------
+
+.. automodule:: manager.urls
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 manager.views module
 --------------------
 
