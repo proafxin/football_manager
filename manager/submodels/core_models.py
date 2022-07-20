@@ -48,6 +48,7 @@ class Team(base_models.BaseModel):
     )
     num_players = models.PositiveSmallIntegerField(
         default=settings.DEFAULT_INITIAL_PLAYER_NUMBER,
+        editable=False,
     )
     budget = models.PositiveBigIntegerField(default=settings.DEFAULT_BUDGET, editable=False)
     league = models.ForeignKey(
@@ -58,8 +59,8 @@ class Team(base_models.BaseModel):
     value = models.PositiveBigIntegerField(default=settings.DEFAULT_VALUE, editable=False)
     earning = models.PositiveBigIntegerField(default=0, editable=False)
     has_manager = models.BooleanField(default=False)
-    starting_manager_salary = models.PositiveBigIntegerField(settings.DEFAULT_SALARY)
-    existing = models.BooleanField(default=True, null=False)
+    starting_manager_salary = models.PositiveBigIntegerField(default=settings.DEFAULT_SALARY)
+    existing = models.BooleanField(default=False, null=False)
 
     def __str__(self):
         return f"{self.name}, {self.league}"
