@@ -121,6 +121,13 @@ ATTRIBUTES = [
 ]
 
 CATEGORIES = ["physique", "playmaking", "shooting", "defending", "setpiece", "skill"]
+PLAYER_POSITIONS = ["GOALKEEPER", "DEFENDER", "MIDFIELDER", "ATTACKER"]
+CONTRACT_TYPES = ["BUY", "LOAN"]
+STATUS = {
+    "offer": ["ACCEPTED", "REJECTED", "STALLED", "COUNTERED"],
+    "player": ["FOR SALE", "NOT FOR SALE", "FREE AGENT"],
+    "transfer": ["OPEN", "CLOSE"],
+}
 
 SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {"basic": {"type": "basic"}},

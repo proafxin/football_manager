@@ -1,83 +1,26 @@
 """Define models for Fifa user_models.Manager"""
 
-from django import conf
+from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core import exceptions
 from django.db import models
 
 from manager.submodels import base_models, user_models
 
 UserModel = get_user_model()
-DEFAULT_ATTRIBUTE_VALUE = conf.settings.DEFAULT_ATTRIBUTE_VALUE
+MAX_LENGTH = settings.MAX_LENGTH
+DEFAULT_ATTRIBUTE_VALUE = settings.DEFAULT_ATTRIBUTE_VALUE
 
 
-class PlayerPosition(base_models.BaseModel):
-    """
-    Model for different player positions.
+def generate_choices(choices):
+    """Generate a tuple of choices from the list of choices"""
 
-    Must be one of these: ['GOALKEEPER', 'DEFENDER', 'MIDFIELDER', 'ATTACKER']
-    """
-
-    position = models.CharField(max_length=conf.settings.MAX_LENGTH, unique=True)
-
-    def __str__(self):
-        return str(self.position)
-
-
-class ContractStatus(base_models.BaseStatus):
-    """
-    Model for different contract types of a player.
-
-    Must be one of these: ['BUY', 'LOAN']
-    """
-
-
-class TransferStatus(base_models.BaseStatus):
-    """
-    Model to check if a transfer is open or closed.
-
-    Must be one of these: ['OPEN', 'CLOSED']
-    """
-
-
-class PlayerStatus(base_models.BaseStatus):
-    """
-    Model to check if a player is for sale or not
-
-    Must be one of these: ['FOR SALE', 'NOT FOR SALE', 'FREE AGENT']
-    """
-
-
-class OfferStatus(base_models.BaseStatus):
-    """
-    Model to track the current status of an offer.
-
-    Must be one of these: ['ACCEPTED', 'REJECTED', 'STALLED', 'COUNTERED']
-    """
-
-
-class OfferType(base_models.BaseModel):
-    """
-    Model to track the type of offer made.
-
-    Must be one of these: ['Buy','Loan']
-    """
-
-    type = models.CharField(
-        max_length=conf.settings.MAX_LENGTH,
-        unique=True,
-        null=False,
-        editable=False,
-    )
-
-    def __str__(self):
-        return str(self.type)
+    return tuple((choice, choice) for choice in choices)
 
 
 class League(base_models.BaseModel):
     """League model"""
 
-    name = models.CharField(max_length=conf.settings.MAX_LENGTH, null=True, default="")
+    name = models.CharField(max_length=settings.MAX_LENGTH, null=True, default="")
     country = models.ForeignKey(
         to=base_models.Country,
         null=False,
@@ -92,7 +35,7 @@ class League(base_models.BaseModel):
 class Team(base_models.BaseModel):
     """Team model"""
 
-    name = models.CharField(max_length=conf.settings.MAX_LENGTH, null=True, default="")
+    name = models.CharField(max_length=settings.MAX_LENGTH, null=True, default="")
     owner = models.ForeignKey(
         to=UserModel,
         on_delete=models.CASCADE,
@@ -104,18 +47,18 @@ class Team(base_models.BaseModel):
         on_delete=models.SET_NULL,
     )
     num_players = models.PositiveSmallIntegerField(
-        default=conf.settings.DEFAULT_INITIAL_PLAYER_NUMBER,
+        default=settings.DEFAULT_INITIAL_PLAYER_NUMBER,
     )
-    budget = models.PositiveBigIntegerField(default=conf.settings.DEFAULT_BUDGET, editable=False)
+    budget = models.PositiveBigIntegerField(default=settings.DEFAULT_BUDGET, editable=False)
     league = models.ForeignKey(
         to=League,
         null=False,
         on_delete=models.CASCADE,
     )
-    value = models.PositiveBigIntegerField(default=conf.settings.DEFAULT_VALUE, editable=False)
+    value = models.PositiveBigIntegerField(default=settings.DEFAULT_VALUE, editable=False)
     earning = models.PositiveBigIntegerField(default=0, editable=False)
     has_manager = models.BooleanField(default=False)
-    starting_manager_salary = models.PositiveBigIntegerField(conf.settings.DEFAULT_SALARY)
+    starting_manager_salary = models.PositiveBigIntegerField(settings.DEFAULT_SALARY)
     existing = models.BooleanField(default=True, null=False)
 
     def __str__(self):
@@ -134,17 +77,18 @@ class Player(base_models.BaseEmployee):
         editable=False,
         related_name="players",
     )
-    price = models.PositiveBigIntegerField(default=conf.settings.DEFAULT_VALUE)
-    status = models.ForeignKey(
-        to=PlayerStatus,
-        null=True,
-        on_delete=models.SET_NULL,
-    )
-    position = models.ForeignKey(
-        to=PlayerPosition,
-        null=True,
+    price = models.PositiveBigIntegerField(default=settings.DEFAULT_VALUE)
+    status = models.CharField(
+        max_length=MAX_LENGTH,
+        null=False,
         editable=False,
-        on_delete=models.SET_NULL,
+        choices=generate_choices(settings.STATUS["player"]),
+    )
+    position = models.CharField(
+        max_length=MAX_LENGTH,
+        null=False,
+        editable=False,
+        choices=generate_choices(settings.PLAYER_POSITIONS),
     )
     earning = models.PositiveBigIntegerField(default=0)
     pace = models.PositiveSmallIntegerField(default=DEFAULT_ATTRIBUTE_VALUE)
@@ -210,15 +154,17 @@ class Transfer(BaseOffer):
         on_delete=models.CASCADE,
         related_name="seller_transfers",
     )
-    status = models.ForeignKey(
-        to=TransferStatus,
+    status = models.CharField(
+        max_length=MAX_LENGTH,
         null=False,
-        on_delete=models.CASCADE,
+        editable=False,
+        choices=generate_choices(settings.STATUS["transfer"]),
     )
-    contract = models.ForeignKey(
-        to=ContractStatus,
+    contract = models.CharField(
+        max_length=MAX_LENGTH,
         null=False,
-        on_delete=models.CASCADE,
+        editable=False,
+        choices=generate_choices(settings.CONTRACT_TYPES),
     )
 
 
@@ -239,15 +185,17 @@ class CounterOffer(BaseOffer):
         on_delete=models.CASCADE,
         related_name="seller_offers",
     )
-    status = models.ForeignKey(
-        to=OfferStatus,
+    status = models.CharField(
+        max_length=MAX_LENGTH,
         null=False,
-        on_delete=models.CASCADE,
+        editable=False,
+        choices=generate_choices(settings.STATUS["offer"]),
     )
-    type = models.ForeignKey(
-        to=OfferType,
+    type = models.CharField(
+        max_length=MAX_LENGTH,
         null=False,
-        on_delete=models.CASCADE,
+        editable=False,
+        choices=generate_choices(settings.CONTRACT_TYPES),
     )
 
 
@@ -292,31 +240,21 @@ class ManagerNegotiation(BaseNegotiation):
     )
 
 
-def validate_attribute(attribute):
-    """Check if attribute is in the predefined ATTRIBUTES list in settings"""
-
-    if attribute not in conf.settings.ATTRIBUTES:
-        raise exceptions.ValidationError(f"{attribute} not in ATTRIBUTES")
-
-
-def validate_categories(category):
-    """Check if category is in the predefined CATEGORIES list in settings"""
-
-    if category not in conf.settings.CATEGORIES:
-        raise exceptions.ValidationError(f"{category} not in CATEGORIES")
-
-
 class AttributeCategory(base_models.BaseModel):
     """Model to map each attribute to a category"""
 
     attribute = models.CharField(
-        max_length=conf.settings.MAX_LENGTH,
-        unique=True,
+        max_length=MAX_LENGTH,
         null=False,
-        validators=[validate_attribute],
+        editable=False,
+        choices=generate_choices(settings.ATTRIBUTES),
+        unique=True,
     )
     category = models.CharField(
-        max_length=conf.settings.MAX_LENGTH, null=False, validators=[validate_categories]
+        max_length=MAX_LENGTH,
+        null=False,
+        editable=False,
+        choices=generate_choices(settings.CATEGORIES),
     )
 
     def __str__(self):

@@ -1,6 +1,6 @@
 """UnitTest for Views"""
 
-
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.utils.crypto import get_random_string
@@ -57,7 +57,7 @@ class TestViews(test.APITestCase):
             self.assertEqual(manager["user"], self.__admin.id)
 
     def test_attribute_category(self):
-        """Test views.AttributeCategoryListView"""
+        """Test /attribute-categories/"""
 
         url = reverse("attribute-categories")
         response = self.client.get(url)
@@ -66,8 +66,8 @@ class TestViews(test.APITestCase):
         self.assertIsInstance(data, list)
         self.assertEqual(len(data), 0)
         data = {
-            "attribute": "pace",
-            "category": "physique",
+            "attribute": settings.ATTRIBUTES[0],
+            "category": settings.CATEGORIES[0],
         }
         response = self.client.post(url, data=data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -83,7 +83,7 @@ class TestViews(test.APITestCase):
             self.assertIsInstance(attribute_category["category"], str)
 
     def test_country(self):
-        """Test  views.CountryListView"""
+        """Test  /countries/"""
 
         url = reverse("countries")
         country_name = "Bangladesh"

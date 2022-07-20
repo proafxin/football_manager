@@ -4,17 +4,7 @@ Specify admin user and register models
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
-from manager.models import (
-    AttributeCategory,
-    Country,
-    Manager,
-    OfferStatus,
-    OfferType,
-    Player,
-    PlayerPosition,
-    PlayerStatus,
-    User,
-)
+from manager.models import AttributeCategory, Country, Manager, Player, User
 
 
 class UserAdmin(BaseUserAdmin):
@@ -66,8 +56,4 @@ admin.site.register(User, UserAdmin)
 admin.site.register(AttributeCategory)
 admin.site.register(Country)
 admin.site.register(Manager)
-admin.site.register(OfferStatus)
-admin.site.register(OfferType)
 admin.site.register(Player)
-admin.site.register(PlayerPosition)
-admin.site.register(PlayerStatus)

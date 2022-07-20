@@ -2,19 +2,18 @@
 
 import datetime
 
-from django import conf
+from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.core import exceptions
 from django.utils import crypto
 from rest_framework import test
 
 from manager import models
 
-MAX_LENGTH = conf.settings.MAX_LENGTH
-DEFAULT_VALUE = conf.settings.DEFAULT_VALUE
-DEFAULT_ATTRIBUTE_VALUE = conf.settings.DEFAULT_ATTRIBUTE_VALUE
+MAX_LENGTH = settings.MAX_LENGTH
+DEFAULT_VALUE = settings.DEFAULT_VALUE
+DEFAULT_ATTRIBUTE_VALUE = settings.DEFAULT_ATTRIBUTE_VALUE
 UserModel = get_user_model()
-ATTRIBUTES = conf.settings.ATTRIBUTES
+ATTRIBUTES = settings.ATTRIBUTES
 
 
 class TestCoreModels(test.APITestCase):
@@ -22,35 +21,12 @@ class TestCoreModels(test.APITestCase):
 
     def setUp(self):
         """Create each of the core models once at the start of each test"""
-        self.__position = "DEFENDER"
         # pylint: disable=no-member
-        self.__player_position = models.PlayerPosition.objects.create(position=self.__position)
-        self.__status = {
-            "transfer": ["OPEN", "CLOSED"],
-            "player": ["FOR SALE", "NOT FOR SALE"],
-            "offer": ["ACCEPTED", "REJECTED", "STALLED", "COUNTERED"],
-        }
-        self.__transfer_status = []
-        self.__player_status = []
-        self.__offer_status = []
-        self.__types_offer = ["BUY", "LOAN"]
-        self.__offer_types = []
+        self.__status = settings.STATUS
         self.__country_names = ["AFGHANISTAN", "INDIA", "BANGLADESH"]
         self.__countries = []
         self.__leagues = []
 
-        for status in self.__status["transfer"]:
-            # pylint: disable=no-member
-            self.__transfer_status.append(models.TransferStatus.objects.create(status=status))
-        for status in self.__status["player"]:
-            # pylint: disable=no-member
-            self.__player_status.append(models.PlayerStatus.objects.create(status=status))
-        for status in self.__status["offer"]:
-            # pylint: disable=no-member
-            self.__offer_status.append(models.OfferStatus.objects.create(status=status))
-        for offer_type in self.__types_offer:
-            # pylint: disable=no-member
-            self.__offer_types.append(models.OfferType.objects.create(type=offer_type))
         for i, name in enumerate(self.__country_names):
             # pylint: disable=no-member
             country = models.Country.objects.create(name=name)
@@ -72,56 +48,12 @@ class TestCoreModels(test.APITestCase):
         )
         self.__player = models.Player.objects.create(
             team=self.__team,
-            status=self.__player_status[0],
+            status=self.__status["player"][0],
             salary=10000,
-            position=self.__player_position,
+            position=settings.PLAYER_POSITIONS[0],
             join_date=datetime.datetime.now(),
             price=0,
         )
-
-    def test_player_position(self):
-        """Test models.PlayerPosition"""
-        self.assertIsNotNone(self.__player_position)
-        # pylint: disable=no-member
-        self.assertEqual(models.PlayerPosition.objects.count(), 1)
-        self.assertEqual(self.__player_position.position, self.__position)
-        self.assertEqual(str(self.__player_position), self.__position)
-
-    def test_transfer_status(self):
-        """Test models.TransferStatus"""
-        # pylint: disable=no-member, protected-access
-        self.assertEqual(models.TransferStatus._meta.get_field("status").max_length, MAX_LENGTH)
-        for transfer_status, status in zip(self.__transfer_status, self.__status["transfer"]):
-            self.assertIsNotNone(transfer_status)
-            self.assertEqual(str(transfer_status), status)
-            self.assertEqual(transfer_status.status, status)
-
-    def test_player_status(self):
-        """Test models.PlayerStatus"""
-        # pylint: disable=no-member, protected-access
-        self.assertEqual(models.PlayerStatus._meta.get_field("status").max_length, MAX_LENGTH)
-        for player_status, status in zip(self.__player_status, self.__status["player"]):
-            self.assertIsNotNone(player_status)
-            self.assertEqual(str(player_status), status)
-            self.assertEqual(player_status.status, status)
-
-    def test_offer_status(self):
-        """Test models.OfferStatus"""
-        # pylint: disable=no-member, protected-access
-        self.assertEqual(models.OfferStatus._meta.get_field("status").max_length, MAX_LENGTH)
-        for offer_status, status in zip(self.__offer_status, self.__status["offer"]):
-            self.assertIsNotNone(offer_status)
-            self.assertEqual(str(offer_status), status)
-            self.assertEqual(offer_status.status, status)
-
-    def test_offer_type(self):
-        """Test models.OfferType"""
-        # pylint: disable=no-member, protected-access
-        self.assertEqual(models.OfferType._meta.get_field("type").max_length, MAX_LENGTH)
-        for offer_type, _type in zip(self.__offer_types, self.__types_offer):
-            self.assertIsNotNone(offer_type)
-            self.assertEqual(str(offer_type), _type)
-            self.assertEqual(offer_type.type, _type)
 
     def test_league(self):
         """Test models.League"""
@@ -140,12 +72,12 @@ class TestCoreModels(test.APITestCase):
         self.assertEqual(self.__team.owner, self.__user)
         self.assertEqual(self.__team.manager, self.__manager)
         self.assertEqual(self.__team.has_manager, True)
-        self.assertEqual(self.__team.num_players, conf.settings.DEFAULT_INITIAL_PLAYER_NUMBER)
-        self.assertEqual(self.__team.budget, conf.settings.DEFAULT_BUDGET)
-        self.assertEqual(self.__team.value, conf.settings.DEFAULT_VALUE)
+        self.assertEqual(self.__team.num_players, settings.DEFAULT_INITIAL_PLAYER_NUMBER)
+        self.assertEqual(self.__team.budget, settings.DEFAULT_BUDGET)
+        self.assertEqual(self.__team.value, settings.DEFAULT_VALUE)
         self.assertEqual(self.__team.league, self.__leagues[0])
         self.assertEqual(self.__team.earning, 0)
-        self.assertEqual(self.__team.starting_manager_salary, conf.settings.DEFAULT_SALARY)
+        self.assertEqual(self.__team.starting_manager_salary, settings.DEFAULT_SALARY)
         self.assertEqual(str(self.__team), f"{self.__team_name}, {self.__leagues[0]}")
 
     def test_player(self):
@@ -158,8 +90,7 @@ class TestCoreModels(test.APITestCase):
         self.assertEqual(models.Player._meta.get_field("first_name").max_length, MAX_LENGTH)
         self.assertEqual(models.Player.objects.count(), 1)
         self.assertEqual(player.team, self.__team)
-        self.assertEqual(player.status, self.__player_status[0])
-        self.assertEqual(player.position, self.__player_position)
+        self.assertEqual(player.status, settings.STATUS["player"][0])
         self.assertEqual(player.price, 0)
         self.assertEqual(player.earning, 0)
 
@@ -176,24 +107,8 @@ class TestCoreModels(test.APITestCase):
         self.assertEqual(
             models.AttributeCategory._meta.get_field("category").max_length, MAX_LENGTH
         )
-        attribute: str = "akjbfgkjlsd"
-        category: str = "jksdvbgjkh"
-        attribute_category = models.AttributeCategory(
-            attribute=attribute,
-            category=category,
-        )
-        with self.assertRaises(exceptions.ValidationError):
-            attribute_category.full_clean()
-        attribute: str = "pace"
-        category: str = "jksdvbgjkh"
-        attribute_category = models.AttributeCategory(
-            attribute=attribute,
-            category=category,
-        )
-        with self.assertRaises(exceptions.ValidationError):
-            attribute_category.save()
-        attribute: str = "pace"
-        category: str = "physique"
+        attribute: str = settings.ATTRIBUTES[0]
+        category: str = settings.CATEGORIES[0]
         attribute_category = models.AttributeCategory.objects.create(
             attribute=attribute,
             category=category,
