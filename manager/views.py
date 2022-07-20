@@ -55,3 +55,12 @@ class CountryListView(generics.ListCreateAPIView):
     serializer_class = serializers.CountrySerializer
     authentication_classes = AUTHENTICATIONS
     permission_classes = [permissions.IsAdminUser]
+
+
+class LeagueListView(generics.ListCreateAPIView):
+    """Get, Post, Put, Delete API for League"""
+
+    queryset = models.League.objects.all()
+    serializer_class = serializers.LeagueSerializer
+    authentication_classes = AUTHENTICATIONS
+    permission_classes = [permissions.IsAdminUser]

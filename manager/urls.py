@@ -14,4 +14,5 @@ urlpatterns = [
     path("register/", views.UserRegisterView.as_view(), name="register"),
     path("managers/", views.ManagerListView.as_view(), name="manager-list"),
     path("countries/", views.CountryListView.as_view(), name="countries"),
+    path("leagues/", views.LeagueListView.as_view(), name="leagues"),
 ]

@@ -1,5 +1,6 @@
 """UnitTest for Views"""
 
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -82,7 +83,7 @@ class TestViews(test.APITestCase):
             self.assertIsInstance(attribute_category["attribute"], str)
             self.assertIsInstance(attribute_category["category"], str)
 
-    def test_country(self):
+    def _test_country(self):
         """Test  /countries/"""
 
         url = reverse("countries")
@@ -103,3 +104,19 @@ class TestViews(test.APITestCase):
         for country in data:
             self.assertIsInstance(country, dict)
             self.assertIn("name", country)
+
+        return data[0]
+
+    def test_league(self):
+        """Test /leagues/"""
+
+        url = reverse("leagues")
+        country = self._test_country()
+
+        params = {
+            "name": "League 1",
+            "country": country["id"],
+            "division": 1,
+        }
+        response = self.client.post(url, data=params)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
