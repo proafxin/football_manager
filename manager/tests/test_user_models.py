@@ -69,6 +69,7 @@ class TestUserModels(test.TestCase):
 
     def test_manager(self):
         """UnitTest manager creation"""
+
         first_name = "First"
         last_name = "Last"
         # pylint: disable=no-member
