@@ -64,3 +64,16 @@ class LeagueListView(generics.ListCreateAPIView):
     serializer_class = serializers.LeagueSerializer
     authentication_classes = AUTHENTICATIONS
     permission_classes = [permissions.IsAdminUser]
+
+
+class TeamListView(generics.ListCreateAPIView):
+    """Get, Post, Put, Delete API for Team"""
+
+    queryset = models.Team.objects.all()
+    serializer_class = serializers.TeamSerializer
+    authentication_classes = AUTHENTICATIONS
+    permission_classes = PERMISSIONS
+
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
+        return super().perform_create(serializer)

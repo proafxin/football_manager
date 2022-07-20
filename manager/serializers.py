@@ -74,3 +74,13 @@ class LeagueSerializer(serializers.ModelSerializer):
 
         model = models.League
         fields = "__all__"
+
+
+class TeamSerializer(serializers.ModelSerializer):
+    """Serialize Team fields"""
+
+    class Meta:
+        """Specify fields to serialize"""
+
+        model = models.Team
+        fields = "__all__"
