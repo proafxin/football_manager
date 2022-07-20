@@ -17,7 +17,8 @@ class UserAdmin(BaseUserAdmin):
         ),
         (
             "Permissions",
-            {"fields": ("is_admin",)},
+            # {"fields": ("is_admin",)},
+            {"fields": ()},
         ),
         (
             "Permissions",
