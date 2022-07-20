@@ -116,4 +116,4 @@ class TestCoreModels(test.APITestCase):
         self.assertIsNotNone(attribute_category)
         self.assertEqual(attribute_category.attribute, attribute)
         self.assertEqual(attribute_category.category, category)
-        self.assertEqual(str(attribute_category), f"{attribute} {category}")
+        self.assertEqual(str(attribute_category), f"{attribute}: {category}")
