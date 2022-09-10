@@ -1,6 +1,8 @@
 ![Build](https://github.com/proafxin/football_manager/actions/workflows/test.yml/badge.svg)
 ![codecov](https://github.com/proafxin/football_manager/blob/develop/coverage.svg)
 
+# Development stopped for higher priority stuff
+
 # Virtual Football Manager
 A virtual backend simulation of football manager mode.
 
