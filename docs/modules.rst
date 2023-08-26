@@ -5,4 +5,5 @@ football_manager
    :maxdepth: 4
 
    fifa_manager
+   manage
    manager

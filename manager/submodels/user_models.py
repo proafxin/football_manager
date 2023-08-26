@@ -1,4 +1,4 @@
-"""Define user related models"""
+"""Define user related models."""
 
 
 from django import conf
@@ -9,21 +9,11 @@ from manager.submodels import base_models
 
 
 class UserManager(auth_models.BaseUserManager):
-    """User manager model with email and no username"""
+    """User manager model with email and no username."""
 
     use_in_migrations = True
 
     def _create_user(self, email, password, **kwargs):
-        """
-        Helper to create a User with email and password.
-
-        :param email: Email of the user.
-            Must be a valid email.
-        :type email: models.EmailField.
-        :param password: Password of the user.
-        :returns: User created using the email and password and other fields from arguments.
-        :rtype: User
-        """
         if not email:
             raise ValueError("The given email must be set")
         email = self.normalize_email(email)
@@ -64,7 +54,7 @@ class UserManager(auth_models.BaseUserManager):
 
 
 class User(auth_models.AbstractUser):
-    """User Model with email as username"""
+    """User Model with email as username."""
 
     username = None
     email = models.EmailField(
@@ -83,7 +73,7 @@ UserModel = conf.settings.AUTH_USER_MODEL
 
 
 class Manager(base_models.BasePerson):
-    """Define Manager corresponding to User model"""
+    """Define Manager corresponding to User model."""
 
     user = models.ForeignKey(
         to=UserModel,

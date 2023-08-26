@@ -1,6 +1,7 @@
 """
-Specify admin user and register models
+Specify admin user and register models.
 """
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
@@ -16,7 +17,7 @@ from manager.models import (
 
 
 class UserAdmin(BaseUserAdmin):
-    """Define Admin for User with email and no username"""
+    """Define Admin for User with email and no username."""
 
     fieldsets = (
         (

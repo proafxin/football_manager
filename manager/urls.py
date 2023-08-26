@@ -1,9 +1,10 @@
-"""Specify URLs for manager"""
+"""Specify URLs for manager."""
 
 
 from django.urls import path
 
 from manager import views
+
 
 urlpatterns = [
     path(

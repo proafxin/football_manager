@@ -1,4 +1,5 @@
-from fifa_manager.setting.base import *
+from fifa_manager.setting.base import *  # noqa: F403
+
 
 DEBUG = True
 INTERNAL_IPS = [

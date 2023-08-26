@@ -1,10 +1,11 @@
-"""Define views for exposing API endpoints"""
+"""Define views for exposing API endpoints."""
 
 
 from django.contrib.auth import get_user_model
 from rest_framework import authentication, generics, permissions
 
 from manager import models, serializers
+
 
 UserModel = get_user_model()
 AUTHENTICATIONS = [
@@ -18,7 +19,7 @@ PERMISSIONS: list = [permissions.IsAuthenticated]
 
 class UserRegisterView(generics.CreateAPIView):
     """
-    Register using email and password
+    Register using email and password.
     """
 
     model = UserModel
@@ -27,7 +28,7 @@ class UserRegisterView(generics.CreateAPIView):
 
 
 class ManagerListView(generics.ListAPIView):
-    """View managers of current user"""
+    """View managers of current user."""
 
     permission_classes = [permissions.IsAuthenticated]
     authentication_classes = AUTHENTICATIONS
@@ -38,7 +39,7 @@ class ManagerListView(generics.ListAPIView):
 
 
 class AttributeCategoryListView(generics.ListCreateAPIView):
-    """Get, Post, Put, Delete API for AttributeCategory"""
+    """Get, Post, Put, Delete API for AttributeCategory."""
 
     queryset = models.AttributeCategory.objects.all()
     serializer_class: serializers.AttributeCategorySerializer = (
@@ -49,7 +50,7 @@ class AttributeCategoryListView(generics.ListCreateAPIView):
 
 
 class CountryListView(generics.ListCreateAPIView):
-    """Get, Post, Put, Delete API for Country"""
+    """Get, Post, Put, Delete API for Country."""
 
     queryset = models.Country.objects.all()
     serializer_class = serializers.CountrySerializer
@@ -58,7 +59,7 @@ class CountryListView(generics.ListCreateAPIView):
 
 
 class LeagueListView(generics.ListCreateAPIView):
-    """Get, Post, Put, Delete API for League"""
+    """Get, Post, Put, Delete API for League."""
 
     queryset = models.League.objects.all()
     serializer_class = serializers.LeagueSerializer
@@ -67,7 +68,7 @@ class LeagueListView(generics.ListCreateAPIView):
 
 
 class TeamListView(generics.ListCreateAPIView):
-    """Get, Post, Put, Delete API for Team"""
+    """Get, Post, Put, Delete API for Team."""
 
     queryset = models.Team.objects.all()
     serializer_class = serializers.TeamSerializer
