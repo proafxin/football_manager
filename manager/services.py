@@ -1,5 +1,5 @@
 """
-Define business logic here
+Define business logic here.
 
 Views will not directly interact with Models.
 Views will call a service from this layer.

@@ -1,18 +1,14 @@
-"""Load all the models to create tables"""
-# pylint: disable=unused-import
-from manager.submodels.base_models import Country
+"""Load all the models to create tables."""
 
-# pylint: disable=unused-import
+from manager.submodels.base_models import Country  # noqa: F401
 from manager.submodels.core_models import (
-    AttributeCategory,
-    CounterOffer,
-    League,
-    ManagerNegotiation,
-    Player,
-    PlayerNegotiation,
-    Team,
-    Transfer,
+    AttributeCategory,  # noqa: F401
+    CounterOffer,  # noqa: F401
+    League,  # noqa: F401
+    ManagerNegotiation,  # noqa: F401
+    Player,  # noqa: F401
+    PlayerNegotiation,  # noqa: F401
+    Team,  # noqa: F401
+    Transfer,  # noqa: F401
 )
-
-# pylint: disable=unused-import
-from manager.submodels.user_models import Manager, User
+from manager.submodels.user_models import Manager, User  # noqa: F401

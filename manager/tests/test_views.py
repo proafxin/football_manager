@@ -1,4 +1,4 @@
-"""UnitTest for Views"""
+"""UnitTest for Views."""
 
 
 from django.conf import settings
@@ -7,11 +7,12 @@ from django.urls import reverse
 from django.utils.crypto import get_random_string
 from rest_framework import status, test
 
+
 UserModel = get_user_model()
 
 
 class TestViews(test.APITestCase):
-    """Write all tests for views"""
+    """Write all tests for views."""
 
     def setUp(self) -> None:
         password = get_random_string(length=12)
@@ -25,10 +26,9 @@ class TestViews(test.APITestCase):
         )
         self.client.login(email=self.__admin.email, password=password)
         self.assertEqual(UserModel.objects.count(), 1)
-        # self.__country = None
 
     def test_register(self):
-        """Test registration"""
+        """Test registration."""
 
         url = reverse("register")
         data = {
@@ -45,13 +45,15 @@ class TestViews(test.APITestCase):
         self.assertEqual(user["email"], data["email"])
 
     def test_managers(self):
-        """Test views.ManagerListView"""
+        """Test views.ManagerListView."""
 
         url = reverse("manager-list")
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         managers = response.json()
         self.assertIsInstance(managers, list)
+        self.assertEqual(len(managers), 1)
+
         for manager in managers:
             self.assertIsInstance(manager, dict)
             fields = ["first_name", "last_name", "user", "country"]
@@ -60,7 +62,7 @@ class TestViews(test.APITestCase):
             self.assertEqual(manager["user"], self.__admin.id)
 
     def test_attribute_category(self):
-        """Test /attribute-categories/"""
+        """Test /attribute-categories/."""
 
         url = reverse("attribute-categories")
         response = self.client.get(url)
@@ -84,11 +86,15 @@ class TestViews(test.APITestCase):
             self.assertIn("category", attribute_category)
             self.assertIsInstance(attribute_category["attribute"], str)
             self.assertIsInstance(attribute_category["category"], str)
-            self.assertLessEqual(len(attribute_category["attribute"]), settings.MAX_LENGTH)
-            self.assertLessEqual(len(attribute_category["category"]), settings.MAX_LENGTH)
+            self.assertLessEqual(
+                len(attribute_category["attribute"]), settings.MAX_LENGTH
+            )
+            self.assertLessEqual(
+                len(attribute_category["category"]), settings.MAX_LENGTH
+            )
 
     def _test_country(self):
-        """Test  /countries/"""
+        """Test  /countries/."""
 
         url = reverse("countries")
         country_name = "Bangladesh"
@@ -113,7 +119,7 @@ class TestViews(test.APITestCase):
         return data[0]
 
     def _test_league(self):
-        """Test /leagues/"""
+        """Test /leagues/."""
 
         url = reverse("league-list")
         country = self._test_country()
@@ -140,7 +146,7 @@ class TestViews(test.APITestCase):
         return league
 
     def test_team(self):
-        """Test /teams/"""
+        """Test /teams/."""
 
         url = reverse("team-list")
         manager = self.__admin.id

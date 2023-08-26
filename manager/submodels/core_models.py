@@ -1,4 +1,4 @@
-"""Define models for Fifa user_models.Manager"""
+"""Define models for Fifa user_models.Manager."""
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -6,19 +6,20 @@ from django.db import models
 
 from manager.submodels import base_models, user_models
 
+
 UserModel = get_user_model()
 MAX_LENGTH = settings.MAX_LENGTH
 DEFAULT_ATTRIBUTE_VALUE = settings.DEFAULT_ATTRIBUTE_VALUE
 
 
 def generate_choices(choices):
-    """Generate a tuple of choices from the list of choices"""
+    """Generate a tuple of choices from the list of choices."""
 
     return tuple((choice, choice) for choice in choices)
 
 
 class League(base_models.BaseModel):
-    """League model"""
+    """League model."""
 
     name = models.CharField(max_length=MAX_LENGTH, null=True, default="")
     country = models.ForeignKey(
@@ -33,7 +34,7 @@ class League(base_models.BaseModel):
 
 
 class Team(base_models.BaseModel):
-    """Team model"""
+    """Team model."""
 
     name = models.CharField(max_length=MAX_LENGTH, null=True, default="")
     owner = models.ForeignKey(
@@ -50,16 +51,22 @@ class Team(base_models.BaseModel):
         default=settings.DEFAULT_INITIAL_PLAYER_NUMBER,
         editable=False,
     )
-    budget = models.PositiveBigIntegerField(default=settings.DEFAULT_BUDGET, editable=False)
+    budget = models.PositiveBigIntegerField(
+        default=settings.DEFAULT_BUDGET, editable=False
+    )
     league = models.ForeignKey(
         to=League,
         null=False,
         on_delete=models.CASCADE,
     )
-    value = models.PositiveBigIntegerField(default=settings.DEFAULT_VALUE, editable=False)
+    value = models.PositiveBigIntegerField(
+        default=settings.DEFAULT_VALUE, editable=False
+    )
     earning = models.PositiveBigIntegerField(default=0, editable=False)
     has_manager = models.BooleanField(default=False)
-    starting_manager_salary = models.PositiveBigIntegerField(default=settings.DEFAULT_SALARY)
+    starting_manager_salary = models.PositiveBigIntegerField(
+        default=settings.DEFAULT_SALARY
+    )
     existing = models.BooleanField(default=False, null=False)
 
     def __str__(self):
@@ -68,7 +75,7 @@ class Team(base_models.BaseModel):
 
 class Player(base_models.BaseEmployee):
     """
-    Player model
+    Player model.
     """
 
     team = models.ForeignKey(
@@ -126,16 +133,15 @@ class BaseOffer(base_models.BaseModel):
         null=False,
         on_delete=models.CASCADE,
     )
-    # pylint: disable=too-few-public-methods
 
     class Meta:
-        """Make BaseOffer abstract"""
+        """Make BaseOffer abstract."""
 
         abstract = True
 
 
 class Transfer(BaseOffer):
-    """Transfer model"""
+    """Transfer model."""
 
     buyer = models.ForeignKey(
         to=Team,
@@ -162,7 +168,7 @@ class Transfer(BaseOffer):
 
 
 class CounterOffer(BaseOffer):
-    """Counter an Offer made"""
+    """Counter an Offer made."""
 
     buyer = models.ForeignKey(
         to=Team,
@@ -189,7 +195,7 @@ class CounterOffer(BaseOffer):
 
 
 class BaseNegotiation(base_models.BaseModel):
-    """Abstract base model for negotiation of an entity with a team"""
+    """Abstract base model for negotiation of an entity with a team."""
 
     asking_salary = models.PositiveBigIntegerField()
     offer_salary = models.PositiveBigIntegerField()
@@ -199,16 +205,15 @@ class BaseNegotiation(base_models.BaseModel):
         editable=False,
         on_delete=models.CASCADE,
     )
-    # pylint: disable=too-few-public-methods
 
     class Meta:
-        """Make BaseNegotiation abstract"""
+        """Make BaseNegotiation abstract."""
 
         abstract = True
 
 
 class PlayerNegotiation(BaseNegotiation):
-    """Negotiate player salary"""
+    """Negotiate player salary."""
 
     player = models.ForeignKey(
         to=Player,
@@ -219,7 +224,7 @@ class PlayerNegotiation(BaseNegotiation):
 
 
 class ManagerNegotiation(BaseNegotiation):
-    """Negotiate manager salary"""
+    """Negotiate manager salary."""
 
     manager = models.ForeignKey(
         to=user_models.Manager,
@@ -229,7 +234,7 @@ class ManagerNegotiation(BaseNegotiation):
 
 
 class AttributeCategory(base_models.BaseModel):
-    """Model to map each attribute to a category"""
+    """Model to map each attribute to a category."""
 
     attribute = models.CharField(
         max_length=MAX_LENGTH,

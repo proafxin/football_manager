@@ -7,7 +7,9 @@ Subpackages
 .. toctree::
    :maxdepth: 4
 
+   manager.migrations
    manager.submodels
+   manager.tests
 
 Submodules
 ----------

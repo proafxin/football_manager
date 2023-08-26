@@ -1,4 +1,4 @@
-"""Define tests for Base Models"""
+"""Define tests for Base Models."""
 
 from django import test
 from django.contrib.auth import get_user_model
@@ -6,11 +6,12 @@ from django.utils.crypto import get_random_string
 
 from manager import models
 
+
 UserModel = get_user_model()
 
 
 class TestUserModels(test.TestCase):
-    """Test all user models"""
+    """Test all user models."""
 
     def setUp(self):
         self.__email = "test@test.com"
@@ -21,7 +22,8 @@ class TestUserModels(test.TestCase):
         )
 
     def test_normal_user(self):
-        """UnitTest normal user creation"""
+        """UnitTest normal user creation."""
+
         self.assertIsNotNone(self.__user)
         self.assertEqual(UserModel.objects.count(), 1)
         self.assertEqual(self.__user.email, self.__email)
@@ -37,7 +39,8 @@ class TestUserModels(test.TestCase):
         )
 
     def test_superuser(self):
-        """UnitTest superuser creation"""
+        """UnitTest superuser creation."""
+
         email = "super@test.com"
         self.assertRaises(
             ValueError,
@@ -68,7 +71,7 @@ class TestUserModels(test.TestCase):
         self.assertEqual(user.is_superuser, True)
 
     def test_manager(self):
-        """UnitTest manager creation"""
+        """UnitTest manager creation."""
 
         first_name = "First"
         last_name = "Last"

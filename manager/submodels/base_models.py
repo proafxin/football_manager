@@ -1,27 +1,27 @@
-"""Define base models to inherit later"""
+"""Define base models to inherit later."""
 
 from django import conf
 from django.db import models
+
 
 MAX_LENGTH = conf.settings.MAX_LENGTH
 
 
 class BaseModel(models.Model):
-    """Abstract model for other models to inherit"""
+    """Abstract model for other models to inherit."""
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # pylint: disable=too-few-public-methods
     class Meta:
-        """Abstract base class for models"""
+        """Abstract base class for models."""
 
         abstract = True
 
 
 class Country(BaseModel):
     """
-    Country model
+    Country model.
     """
 
     name = models.CharField(max_length=MAX_LENGTH, unique=True)
@@ -32,7 +32,7 @@ class Country(BaseModel):
 
 class BasePerson(BaseModel):
     """
-    BasePerson model
+    BasePerson model.
     """
 
     first_name = models.CharField(max_length=MAX_LENGTH, null=True)
@@ -58,12 +58,12 @@ class BasePerson(BaseModel):
 
 
 class BaseEmployee(BasePerson):
-    """Add salary for an employee"""
+    """Add salary for an employee."""
 
     salary = models.PositiveBigIntegerField()
 
     # pylint: disable=too-few-public-methods
     class Meta:
-        """Make BaseEmployee abstract"""
+        """Make BaseEmployee abstract."""
 
         abstract = True
